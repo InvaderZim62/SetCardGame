@@ -12,8 +12,13 @@ class ViewController: UIViewController
 {
     var game = SetCardGame(numberOfCardsDealt: 12)
 
-    @IBOutlet var cardButtons: [UIButton]!
-    
+    @IBOutlet var cardButtons: [UIButton]! {
+        didSet {
+            _ = cardButtons.map { $0.layer.cornerRadius = 10 }
+            _ = cardButtons.map { $0.layer.borderWidth = 1 }
+        }
+    }
+
     @IBAction func touchCard(_ sender: UIButton) {
     }
     
@@ -27,7 +32,7 @@ class ViewController: UIViewController
     func updateViewFromModel() {
         for index in cardButtons.indices {
             let button = cardButtons[index]
-            if index < 12 {
+            if index < game.cardsDealt.count {
                 let card = game.cardsDealt[index]
                 button.setAttributedTitle(symbolForCard(card: card), for: UIControlState.normal)
             }
