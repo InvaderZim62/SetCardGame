@@ -11,4 +11,13 @@ import Foundation
 struct SetCardGame
 {
     var deck = SetCardDeck()
+    var cardsDealt = [SetCard]()
+
+    init(numberOfCardsDealt: Int) {
+        for _ in 0..<numberOfCardsDealt {
+            if let card = deck.drawRandom() {
+                cardsDealt += [card]
+            }
+        }
+    }
 }

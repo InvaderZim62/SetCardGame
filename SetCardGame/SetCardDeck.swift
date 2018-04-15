@@ -24,4 +24,27 @@ struct SetCardDeck
             }
         }
     }
+    
+    mutating func drawRandom() -> SetCard? {
+        if cards.count > 0 {
+            let card = cards.remove(at: cards.count.arc4random)
+            return card
+        } else {
+            return nil
+        }
+    }
+}
+
+// extend int to return randome number from 0 to the int itself
+// Note: extensions can add computed properties, but not stored properties or propertiy observers
+extension Int {
+    var arc4random: Int {
+        if self > 0 {
+            return Int(arc4random_uniform(UInt32(self)))
+        } else if self < 0 {
+            return -Int(arc4random_uniform(UInt32(-self)))
+        } else {
+            return 0
+        }
+    }
 }
