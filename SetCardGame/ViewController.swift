@@ -42,31 +42,31 @@ class ViewController: UIViewController
     func symbolForCard(card: SetCard) -> NSAttributedString {
         var symbol: String
         switch card.symbol {
-        case .Shape1:
+        case .shape1:
             symbol = "▲"
-        case .Shape2:
+        case .shape2:
             symbol = "●"
-        case .Shape3:
+        case .shape3:
             symbol = "■"
         }
         
         var shading: CGFloat
         switch card.shading {
-        case .Style1:
+        case .style1:
             shading = 0.0
-        case .Style2:
+        case .style2:
             shading = 0.15
-        case .Style3:
+        case .style3:
             shading = 1.0
         }
 
         var color: UIColor
         switch card.color {
-        case .One:
+        case .one:
             color = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
-        case .Two:
+        case .two:
             color = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
-        case .Three:
+        case .three:
             color = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
         }
 

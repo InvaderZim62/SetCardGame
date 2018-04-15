@@ -10,15 +10,14 @@ import Foundation
 
 struct SetCardDeck
 {
-    var cards = [SetCard]()
+    private(set) var cards = [SetCard]()
     
     init() {
         for rank in SetCard.validRanks {
-            for symbol in SetCard.validSymbols {
-                for shading in SetCard.validShading {
-                    for color in SetCard.validColors {
-                        let card = SetCard(rank: rank, symbol: symbol, shading: shading, color: color)
-                        cards += [card]
+            for symbol in SetCard.Symbol.all {
+                for shading in SetCard.Shading.all {
+                    for color in SetCard.Color.all {
+                        cards.append(SetCard(rank: rank, symbol: symbol, shading: shading, color: color))
                     }
                 }
             }

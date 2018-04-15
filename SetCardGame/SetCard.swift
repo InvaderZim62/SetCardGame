@@ -11,29 +11,33 @@ import Foundation
 struct SetCard
 {
     let rank: Int
+    let symbol: Symbol
+    let shading: Shading
+    let color: Color
+
     static let validRanks = [1, 2, 3]
 
     enum Symbol {
-        case Shape1
-        case Shape2
-        case Shape3
+        case shape1
+        case shape2
+        case shape3
+        
+        static let all = [Symbol.shape1, .shape2, .shape3]
     }
-    let symbol: Symbol
-    static let validSymbols = [Symbol.Shape1, .Shape2, .Shape3]
 
     enum Shading {
-        case Style1
-        case Style2
-        case Style3
+        case style1
+        case style2
+        case style3
+        
+        static let all = [Shading.style1, .style2, .style3]
     }
-    let shading: Shading
-    static let validShading = [Shading.Style1, .Style2, .Style3]
 
     enum Color {
-        case One
-        case Two
-        case Three
+        case one
+        case two
+        case three
+        
+        static let all = [Color.one, .two, .three]
     }
-    let color: Color
-    static let validColors = [Color.One, .Two, .Three]
 }
