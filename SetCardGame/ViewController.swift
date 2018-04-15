@@ -35,16 +35,6 @@ class ViewController: UIViewController
     }
     
     func symbolForCard(card: SetCard) -> NSAttributedString {
-        var rank: Int
-        switch card.rank {
-        case .One:
-            rank = 1
-        case .Two:
-            rank = 2
-        case .Three:
-            rank = 3
-        }
-        
         var symbol: String
         switch card.symbol {
         case .Shape1:
@@ -75,7 +65,7 @@ class ViewController: UIViewController
             color = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
         }
 
-        let cardTitleString = String(repeating: symbol, count: rank)
+        let cardTitleString = String(repeating: symbol, count: card.rank)
         
         let attributes: [NSAttributedStringKey:Any] = [
             .strokeColor: color,
