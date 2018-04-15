@@ -8,8 +8,10 @@
 
 import Foundation
 
-struct SetCard
+struct SetCard: CustomStringConvertible  // CustomStringConvertable allows custome output for print (requies " var description")
 {
+    var description: String { return "rank:\(rank) \(symbol) shading:\(shading) color:\(color)" }
+    
     let rank: Int
     let symbol: Symbol
     let shading: Shading
@@ -17,7 +19,9 @@ struct SetCard
 
     static let validRanks = [1, 2, 3]
 
-    enum Symbol {
+    enum Symbol: String, CustomStringConvertible {                // each enum can have it's own description
+        var description: String { return "symbol:\(rawValue)" }
+        
         case shape1
         case shape2
         case shape3

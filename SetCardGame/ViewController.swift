@@ -11,6 +11,16 @@ import UIKit
 class ViewController: UIViewController
 {
     var game = SetCardGame(numberOfCardsDealt: 12)
+    
+    // eample of good place to put debug code
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        for _ in 1...10 {
+//            if let card = game.deck.drawRandom() {
+//                print("\(card)")
+//            }
+//        }
+//    }
 
     @IBOutlet var cardButtons: [UIButton]! {
         didSet {
