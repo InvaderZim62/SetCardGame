@@ -13,6 +13,11 @@ struct SetCardDeck
     private(set) var cards = [SetCard]()
     
     init() {
+        reset()
+    }
+    
+    mutating func reset() {
+        cards.removeAll()
         for rank in SetCard.validRanks {
             for symbol in SetCard.Symbol.all {
                 for shading in SetCard.Shading.all {

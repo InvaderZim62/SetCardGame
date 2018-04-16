@@ -10,13 +10,30 @@ import Foundation
 
 struct SetCardGame
 {
+    var numberOfCardsDealt: Int
     var deck = SetCardDeck()
     var cardsDealt = [SetCard]()
+    var cardsSelected = [Bool]()
 
     init(numberOfCardsDealt: Int) {
+        self.numberOfCardsDealt = numberOfCardsDealt
+        reset()
+    }
+    
+    mutating func cardSelected(at index:Int) {
+        if index < cardsSelected.count {
+            cardsSelected[index] = !cardsSelected[index]
+        }
+    }
+    
+    mutating func reset() {
+        deck.reset()
+        cardsDealt.removeAll()
+        cardsSelected.removeAll()
         for _ in 0..<numberOfCardsDealt {
             if let card = deck.drawRandom() {
-                cardsDealt += [card]
+                cardsDealt.append(card)
+                cardsSelected.append(false)
             }
         }
     }

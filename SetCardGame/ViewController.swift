@@ -10,10 +10,10 @@ import UIKit
 
 class ViewController: UIViewController
 {
-    var game = SetCardGame(numberOfCardsDealt: 12)
+    let numberOfCardsDealt = 12
+    lazy var game = SetCardGame(numberOfCardsDealt: numberOfCardsDealt)
     
-    // eample of good place to put debug code
-//    override func viewDidLoad() {
+//    override func viewDidLoad() {        // eample of good place to put debug code
 //        super.viewDidLoad()
 //        for _ in 1...10 {
 //            if let card = game.deck.drawRandom() {
@@ -30,22 +30,29 @@ class ViewController: UIViewController
     }
 
     @IBAction func touchCard(_ sender: UIButton) {
+        if let index = cardButtons.index(of: sender) {
+            game.cardSelected(at: index)
+        } else {
+            print("Selected button not found in cardButtons")
+        }
+        updateViewFromModel()
     }
     
     @IBAction func selectMoreCards(_ sender: UIButton) {
     }
     
     @IBAction func selectNewGame(_ sender: UIButton) {
+        game.reset()
         updateViewFromModel()
     }
     
     func updateViewFromModel() {
-        for index in cardButtons.indices {
+        for index in game.cardsDealt.indices {
             let button = cardButtons[index]
-            if index < game.cardsDealt.count {
-                let card = game.cardsDealt[index]
-                button.setAttributedTitle(symbolForCard(card: card), for: UIControlState.normal)
-            }
+            let card = game.cardsDealt[index]
+            let isSelected = game.cardsSelected[index]
+            button.setAttributedTitle(symbolForCard(card: card), for: UIControlState.normal)
+            button.layer.borderWidth = isSelected ? 3 : 1
         }
     }
     

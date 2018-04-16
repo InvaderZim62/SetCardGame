@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct SetCard: CustomStringConvertible  // CustomStringConvertable allows custome output for print (requies " var description")
+struct SetCard: CustomStringConvertible  // CustomStringConvertable protocol allows custom output for print (requies " var description")
 {
     var description: String { return "rank:\(rank) \(symbol) shading:\(shading) color:\(color)" }
     
