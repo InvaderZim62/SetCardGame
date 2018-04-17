@@ -18,6 +18,8 @@ struct SetCardGame
     var deck = SetCardDeck()
     var cardsDealt = [SetCard]()
     var isCardSelected = [Bool]()     // same size as cardsDealt
+    var isCardVisible = [Bool]()      // same size as cardsDealt
+    var gameOver = false
 
     init(numberOfCardsDealt: Int) {
         self.numberOfCardsDealt = numberOfCardsDealt
@@ -30,9 +32,12 @@ struct SetCardGame
             if numberOfCardsSelected == 3 {                         // if selected a card while 3 are already selected
                 isCardSelected = isCardSelected.map { _ in false }  // clear all selections
                 if isPreviousMatchMade {
-                    for matchIndex in matchIndices {                // replace matched cards with new cards
+                    for matchIndex in matchIndices {
                         if let card = deck.drawRandom() {
-                            cardsDealt[matchIndex] = card
+                            cardsDealt[matchIndex] = card           // replace matched card with new card from deck
+                        } else {
+                            isCardVisible[matchIndex] = false       // hide matched card, since deck is empty
+                            if isCardVisible.count(of: true) == 0 { gameOver = true }
                         }
                     }
                 }
@@ -46,21 +51,43 @@ struct SetCardGame
             if numberOfCardsSelected == 3 {
                 matchIndices = isCardSelected.indices(of: true)
                 let selectedCards = matchIndices.map { cardsDealt[$0] }
-                isMatchMade = SetCard.checkForMatching(cards: selectedCards)
+                isMatchMade = SetCard.checkFor3Matching(cards: selectedCards)
                 isPreviousMatchMade = isMatchMade!
             }
         }
     }
     
+    func isMatchAvailable() -> Bool {
+        for i in 0..<cardsDealt.count {
+            if isCardVisible[i] {
+                for j in i..<cardsDealt.count {
+                    if isCardVisible[j] {
+                        for k in j..<cardsDealt.count {
+                            if isCardVisible[k] {
+                                let testCards = [cardsDealt[i], cardsDealt[j], cardsDealt[k]]
+                                let match = SetCard.checkFor3Matching(cards: testCards)
+                                if match == true { return true }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false
+    }
+
     mutating func reset() {
+        gameOver = false
         deck.reset()
         cardsDealt.removeAll()
         isCardSelected.removeAll()
+        isCardVisible.removeAll()
         numberOfCardsSelected = 0
         for _ in 0..<numberOfCardsDealt {
             if let card = deck.drawRandom() {
                 cardsDealt.append(card)
                 isCardSelected.append(false)
+                isCardVisible.append(true)
             }
         }
     }

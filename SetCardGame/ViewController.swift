@@ -24,6 +24,12 @@ class ViewController: UIViewController
 //        }
     }
 
+    @IBOutlet weak var moreCardsButton: UIButton! {
+        didSet {
+            moreCardsButton.layer.cornerRadius = 10
+        }
+    }
+    
     @IBOutlet var cardButtons: [UIButton]! {
         didSet {
             _ = cardButtons.map { $0.layer.cornerRadius = 10 }
@@ -53,9 +59,16 @@ class ViewController: UIViewController
         for index in game.cardsDealt.indices {
             let button = cardButtons[index]
             let card = game.cardsDealt[index]
+            let visible = game.isCardVisible[index]
             let isSelected = game.isCardSelected[index]
             button.isHidden = false
-            button.setAttributedTitle(symbolForCard(card: card), for: UIControlState.normal)
+            button.isEnabled = visible
+            if visible {
+                button.setAttributedTitle(symbolForCard(card: card), for: UIControlState.normal)
+            } else {
+                button.setAttributedTitle(nil, for: UIControlState.normal)
+                button.setTitle(nil, for: UIControlState.normal)
+            }
             button.layer.borderWidth = isSelected ? 3 : 1
             button.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
             if isSelected {
@@ -64,6 +77,7 @@ class ViewController: UIViewController
                 }
             }
         }
+        moreCardsButton.layer.borderWidth = game.isMatchAvailable() ? 0 : 2
     }
     
     func symbolForCard(card: SetCard) -> NSAttributedString {

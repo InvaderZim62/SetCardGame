@@ -24,6 +24,7 @@ struct SetCardDeck
                     for color in SetCard.Color.all {
                         cards.append(SetCard(rank: rank, symbol: symbol, shading: shading, color: color))
                     }
+                    //cards.append(SetCard(rank: rank, symbol: symbol, shading: shading, color: SetCard.Color.one))
                 }
             }
         }

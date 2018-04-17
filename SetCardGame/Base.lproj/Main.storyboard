@@ -250,9 +250,9 @@
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Or-xi-FyE">
-                                <rect key="frame" x="16" y="611" width="118" height="36"/>
+                                <rect key="frame" x="16" y="611" width="127" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="3 More Cards"/>
+                                <state key="normal" title=" 3 More Cards "/>
                                 <connections>
                                     <action selector="selectMoreCards:" destination="BYZ-38-t0r" eventType="touchUpInside" id="FNm-f6-t2X"/>
                                 </connections>
@@ -281,6 +281,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="moreCardsButton" destination="2Or-xi-FyE" id="TnF-Xi-dmO"/>
                         <outletCollection property="cardButtons" destination="8wI-3x-7Sl" collectionClass="NSMutableArray" id="w2u-ZK-mYT"/>
                         <outletCollection property="cardButtons" destination="vA0-H3-Oxk" collectionClass="NSMutableArray" id="c76-L7-do7"/>
                         <outletCollection property="cardButtons" destination="cYC-1m-ctG" collectionClass="NSMutableArray" id="52R-nr-dPu"/>
