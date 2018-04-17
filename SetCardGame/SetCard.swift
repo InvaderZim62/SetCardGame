@@ -44,4 +44,40 @@ struct SetCard: CustomStringConvertible  // CustomStringConvertable protocol all
         
         static let all = [Color.one, .two, .three]
     }
+    
+    static func checkForMatching(cards: [SetCard]) -> Bool {
+        assert(cards.count == 3, "SetCardGame.checkForMatch(\(cards.count)): there should be 3 selected cards, here")
+        
+        var matchCount = 0
+        
+        if cards[0].rank == cards[1].rank &&
+           cards[1].rank == cards[2].rank { matchCount += 1 }
+        if cards[0].rank != cards[1].rank &&
+           cards[1].rank != cards[2].rank &&
+           cards[2].rank != cards[0].rank { matchCount += 1 }
+
+        if cards[0].symbol == cards[1].symbol &&
+           cards[1].symbol == cards[2].symbol { matchCount += 1 }
+        if cards[0].symbol != cards[1].symbol &&
+           cards[1].symbol != cards[2].symbol &&
+           cards[2].symbol != cards[0].symbol { matchCount += 1 }
+        
+        if cards[0].shading == cards[1].shading &&
+           cards[1].shading == cards[2].shading { matchCount += 1 }
+        if cards[0].shading != cards[1].shading &&
+           cards[1].shading != cards[2].shading &&
+           cards[2].shading != cards[0].shading { matchCount += 1 }
+
+        if cards[0].color == cards[1].color &&
+           cards[1].color == cards[2].color { matchCount += 1 }
+        if cards[0].color != cards[1].color &&
+           cards[1].color != cards[2].color &&
+           cards[2].color != cards[0].color { matchCount += 1 }
+
+        if matchCount == 4 {
+            return true
+        } else {
+            return false
+        }
+    }
 }

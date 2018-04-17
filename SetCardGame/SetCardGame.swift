@@ -46,18 +46,10 @@ struct SetCardGame
             if numberOfCardsSelected == 3 {
                 matchIndices = isCardSelected.indices(of: true)
                 let selectedCards = matchIndices.map { cardsDealt[$0] }
-                isMatchMade = checkForMatching(cards: selectedCards)
+                isMatchMade = SetCard.checkForMatching(cards: selectedCards)
                 isPreviousMatchMade = isMatchMade!
             }
         }
-    }
-    
-    func checkForMatching(cards: [SetCard]) -> Bool {
-        assert(cards.count == 3, "SetCardGame.checkForMatch(\(cards.count)): there should be 3 selected cards, here")
-        if cards[0].rank == cards[1].rank {     // placeholder, for now
-            return true
-        }
-        return false
     }
     
     mutating func reset() {

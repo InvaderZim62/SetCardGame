@@ -13,14 +13,16 @@ class ViewController: UIViewController
     let numberOfCardsDealt = 12
     lazy var game = SetCardGame(numberOfCardsDealt: numberOfCardsDealt)
     
-//    override func viewDidLoad() {        // eample of good place to put debug code
-//        super.viewDidLoad()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        game.reset()
+        updateViewFromModel()
 //        for _ in 1...10 {
 //            if let card = game.deck.drawRandom() {
-//                print("\(card)")
+//                print("\(card)")                    // example of good place to put debug code
 //            }
 //        }
-//    }
+    }
 
     @IBOutlet var cardButtons: [UIButton]! {
         didSet {
@@ -47,10 +49,12 @@ class ViewController: UIViewController
     }
     
     func updateViewFromModel() {
+        _ = cardButtons.map { $0.isHidden = true }
         for index in game.cardsDealt.indices {
             let button = cardButtons[index]
             let card = game.cardsDealt[index]
             let isSelected = game.isCardSelected[index]
+            button.isHidden = false
             button.setAttributedTitle(symbolForCard(card: card), for: UIControlState.normal)
             button.layer.borderWidth = isSelected ? 3 : 1
             button.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
