@@ -50,9 +50,15 @@ class ViewController: UIViewController
         for index in game.cardsDealt.indices {
             let button = cardButtons[index]
             let card = game.cardsDealt[index]
-            let isSelected = game.cardsSelected[index]
+            let isSelected = game.isCardSelected[index]
             button.setAttributedTitle(symbolForCard(card: card), for: UIControlState.normal)
             button.layer.borderWidth = isSelected ? 3 : 1
+            button.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+            if isSelected {
+                if let match = game.isMatchMade {
+                    button.layer.backgroundColor = match ? #colorLiteral(red: 0.814127624, green: 0.9532099366, blue: 0.850346446, alpha: 1) : #colorLiteral(red: 0.9486960769, green: 0.7929092646, blue: 0.8161730766, alpha: 1)
+                }
+            }
         }
     }
     

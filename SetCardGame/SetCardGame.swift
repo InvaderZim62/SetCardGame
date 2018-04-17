@@ -11,9 +11,11 @@ import Foundation
 struct SetCardGame
 {
     var numberOfCardsDealt: Int
+    var numberOfCardsSelected = 0
+    var isMatchMade: Bool?
     var deck = SetCardDeck()
     var cardsDealt = [SetCard]()
-    var cardsSelected = [Bool]()
+    var isCardSelected = [Bool]()
 
     init(numberOfCardsDealt: Int) {
         self.numberOfCardsDealt = numberOfCardsDealt
@@ -21,19 +23,40 @@ struct SetCardGame
     }
     
     mutating func cardSelected(at index:Int) {
-        if index < cardsSelected.count {
-            cardsSelected[index] = !cardsSelected[index]
+        if index < isCardSelected.count {                           // make sure index is within array
+            isMatchMade = nil
+            numberOfCardsSelected = isCardSelected.filter { $0 == true }.count
+            if numberOfCardsSelected == 3 {
+                isCardSelected = isCardSelected.map { _ in false }  // set all to false
+                numberOfCardsSelected = 1
+            }
+            isCardSelected[index] = !isCardSelected[index]
+            numberOfCardsSelected = isCardSelected.filter { $0 == true }.count
+            if numberOfCardsSelected == 3 {
+                isMatchMade = checkForMatch()
+            }
         }
+    }
+    
+    func checkForMatch() -> Bool {
+        let indices = isCardSelected.indices.filter { isCardSelected[$0] == true }
+        let selectedCards = indices.map { cardsDealt[$0] }
+        assert(selectedCards.count == 3, "SetCardGame.checkForMatch(\(selectedCards.count)): there should be 3 selected cards, here")
+        if selectedCards[0].rank == selectedCards[1].rank {     // placeholder, for now
+            return true
+        }
+        return false
     }
     
     mutating func reset() {
         deck.reset()
         cardsDealt.removeAll()
-        cardsSelected.removeAll()
+        isCardSelected.removeAll()
+        numberOfCardsSelected = 0
         for _ in 0..<numberOfCardsDealt {
             if let card = deck.drawRandom() {
                 cardsDealt.append(card)
-                cardsSelected.append(false)
+                isCardSelected.append(false)
             }
         }
     }
