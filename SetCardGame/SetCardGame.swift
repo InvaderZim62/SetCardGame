@@ -17,7 +17,7 @@ struct SetCardGame
     var matchIndices = [Int]()
     var deck = SetCardDeck()
     var cardsDealt = [SetCard]()
-    var isCardSelected = [Bool]()
+    var isCardSelected = [Bool]()     // same size as cardsDealt
 
     init(numberOfCardsDealt: Int) {
         self.numberOfCardsDealt = numberOfCardsDealt
@@ -26,7 +26,7 @@ struct SetCardGame
     
     mutating func cardSelected(at index:Int) {
         if index < isCardSelected.count {                           // make sure index is within array
-            numberOfCardsSelected = isCardSelected.filter { $0 == true }.count
+            numberOfCardsSelected = isCardSelected.count(of: true)  // uses my extention, below
             if numberOfCardsSelected == 3 {                         // if selected a card while 3 are already selected
                 isCardSelected = isCardSelected.map { _ in false }  // clear all selections
                 if isPreviousMatchMade {
@@ -41,10 +41,10 @@ struct SetCardGame
                 isCardSelected[index] = !isCardSelected[index]      // select current card, unless it was part of the previous match
             }
             isMatchMade = nil
-            numberOfCardsSelected = isCardSelected.filter { $0 == true }.count
+            numberOfCardsSelected = isCardSelected.count(of: true)
             isPreviousMatchMade = false
             if numberOfCardsSelected == 3 {
-                matchIndices = isCardSelected.indices.filter { isCardSelected[$0] == true }
+                matchIndices = isCardSelected.indices(of: true)
                 let selectedCards = matchIndices.map { cardsDealt[$0] }
                 isMatchMade = checkForMatching(cards: selectedCards)
                 isPreviousMatchMade = isMatchMade!
@@ -73,3 +73,13 @@ struct SetCardGame
         }
     }
 }
+
+extension Array where Element: Equatable {
+    func count(of element: Element) -> Int {
+        return self.filter { $0 == element }.count
+    }
+    func indices(of element: Element) -> [Int] {
+        return self.indices.filter { self[$0] == element }
+    }
+}
+
