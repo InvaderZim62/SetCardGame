@@ -30,7 +30,7 @@ struct SetCardGame
     }
     
     mutating func cardSelected(at index:Int) {
-        if index < isCardSelected.count {                           // make sure index is within array
+        if index < isCardSelected.count {                           // make sure index is within dealt cards
             numberOfCardsSelected = isCardSelected.count(of: true)  // uses an extention, below
             if numberOfCardsSelected == 3 {                         // if selected a card while 3 are already selected
                 isCardSelected = isCardSelected.map { _ in false }  // clear all selections
@@ -93,7 +93,7 @@ struct SetCardGame
                                 let testCards = [cardsDealt[i], cardsDealt[j], cardsDealt[k]]
                                 isMatchAvailable = SetCard.checkFor3Matching(cards: testCards)
                                 if isMatchAvailable {
-                                    print("match: \(i),\(j),\(k)")
+                                    print("available match: \(i),\(j),\(k)")
                                     return
                                 }
                             }
