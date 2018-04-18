@@ -76,7 +76,6 @@ class ViewController: UIViewController
                 button.setAttributedTitle(symbolForCard(card: card), for: UIControlState.normal)
             } else {
                 button.setAttributedTitle(nil, for: UIControlState.normal)
-                button.setTitle(nil, for: UIControlState.normal)
             }
             button.layer.borderWidth = isSelected ? 3 : 1
             button.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)

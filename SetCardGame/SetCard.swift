@@ -48,7 +48,7 @@ struct SetCard: CustomStringConvertible  // CustomStringConvertable protocol all
     static func checkFor3Matching(cards: [SetCard]) -> Bool {
         assert(cards.count == 3, "SetCardGame.checkForMatch(\(cards.count)): there should be 3 selected cards, here")
         
-        //return true  // temporary, to get through deck quickly
+        //return true  // for debugging, to make everything match, uncomment this line
         
         var matchCount = 0
         
