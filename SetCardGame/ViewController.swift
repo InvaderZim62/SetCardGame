@@ -60,17 +60,16 @@ class ViewController: UIViewController
     
     @IBAction func selectNewGame(_ sender: UIButton) {
         game.reset()
+        _ = cardButtons.map { $0.setAttributedTitle(nil, for: UIControlState.normal)}
         updateViewFromModel()
     }
     
     func updateViewFromModel() {
-        _ = cardButtons.map { $0.isHidden = true }
         for index in game.cardsDealt.indices {
             let button = cardButtons[index]
             let card = game.cardsDealt[index]
             let visible = game.isCardVisible[index]
             let isSelected = game.isCardSelected[index]
-            button.isHidden = false
             button.isEnabled = visible
             if visible {
                 button.setAttributedTitle(symbolForCard(card: card), for: UIControlState.normal)
