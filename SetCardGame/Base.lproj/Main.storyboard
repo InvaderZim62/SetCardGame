@@ -258,9 +258,9 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ArX-qs-AVG">
-                                <rect key="frame" x="262" y="611" width="97" height="36"/>
+                                <rect key="frame" x="254" y="611" width="105" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="New Game"/>
+                                <state key="normal" title=" New Game "/>
                                 <connections>
                                     <action selector="selectNewGame:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6pM-Hv-qOW"/>
                                 </connections>
@@ -282,6 +282,7 @@
                     </view>
                     <connections>
                         <outlet property="moreCardsButton" destination="2Or-xi-FyE" id="TnF-Xi-dmO"/>
+                        <outlet property="newGameButton" destination="ArX-qs-AVG" id="Ych-Y3-OxH"/>
                         <outletCollection property="cardButtons" destination="8wI-3x-7Sl" collectionClass="NSMutableArray" id="w2u-ZK-mYT"/>
                         <outletCollection property="cardButtons" destination="vA0-H3-Oxk" collectionClass="NSMutableArray" id="c76-L7-do7"/>
                         <outletCollection property="cardButtons" destination="cYC-1m-ctG" collectionClass="NSMutableArray" id="52R-nr-dPu"/>

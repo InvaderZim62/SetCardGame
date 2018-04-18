@@ -31,6 +31,12 @@ class ViewController: UIViewController
         }
     }
     
+    @IBOutlet weak var newGameButton: UIButton! {
+        didSet {
+            newGameButton.layer.cornerRadius = 10
+        }
+    }
+    
     @IBOutlet var cardButtons: [UIButton]! {
         didSet {
             _ = cardButtons.map { $0.layer.cornerRadius = 10 }
@@ -80,7 +86,8 @@ class ViewController: UIViewController
                 }
             }
         }
-        moreCardsButton.layer.borderWidth = game.isMatchAvailable ? 0 : 2
+        moreCardsButton.layer.borderWidth = !game.isMatchAvailable && game.deck.cards.count > 0 ? 2 : 0
+        newGameButton.layer.borderWidth = !game.isMatchAvailable && game.deck.cards.count == 0 ? 2 : 0
     }
     
     func symbolForCard(card: SetCard) -> NSAttributedString {
