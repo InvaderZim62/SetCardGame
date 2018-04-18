@@ -31,20 +31,13 @@ struct SetCardGame
     
     mutating func cardSelected(at index:Int) {
         if index < isCardSelected.count {                           // make sure index is within array
-            numberOfCardsSelected = isCardSelected.count(of: true)  // uses my extention, below
+            numberOfCardsSelected = isCardSelected.count(of: true)  // uses an extention, below
             if numberOfCardsSelected == 3 {                         // if selected a card while 3 are already selected
                 isCardSelected = isCardSelected.map { _ in false }  // clear all selections
                 if isPreviousMatchMade {
-                    for matchIndex in matchIndices {
-                        if let card = deck.drawRandom() {
-                            cardsDealt[matchIndex] = card           // replace matched card with new card from deck
-                        } else {
-                            isCardVisible[matchIndex] = false       // hide matched card, since deck is empty
-                            if isCardVisible.count(of: true) == 0 { gameOver = true }
-                        }
-                    }
+                    replaceMatchedCards()
                 }
-                checkMatchAvailable()
+                checkIfMatchAvailable()
             }
             if !(isPreviousMatchMade && matchIndices.contains(index)) {
                 isCardSelected[index] = !isCardSelected[index]      // select current card, unless it was part of the previous match
@@ -61,8 +54,23 @@ struct SetCardGame
         }
     }
     
+    mutating func replaceMatchedCards () {
+        for matchIndex in matchIndices {
+            if let card = deck.drawRandom() {
+                cardsDealt[matchIndex] = card           // replace matched card with new card from deck
+            } else {
+                isCardVisible[matchIndex] = false       // hide matched card, since deck is empty
+                if isCardVisible.count(of: true) == 0 { gameOver = true }
+            }
+        }
+    }
+    
     mutating func deal3MoreCards() {
-        if cardsDealt.count <= numberOfPlacesAvailable - 3 {
+        isCardSelected = isCardSelected.map { _ in false }  // clear all selections
+        if isPreviousMatchMade {
+            replaceMatchedCards()
+            isPreviousMatchMade = false
+        } else if cardsDealt.count <= numberOfPlacesAvailable - 3 {
             for _ in 0..<3 {
                 if let card = deck.drawRandom() {
                     cardsDealt.append(card)
@@ -70,11 +78,11 @@ struct SetCardGame
                     isCardVisible.append(true)
                 }
             }
-            checkMatchAvailable()
         }
+        checkIfMatchAvailable()
     }
     
-    mutating func checkMatchAvailable() {
+    mutating func checkIfMatchAvailable() {
         isMatchAvailable = false
         for i in 0..<cardsDealt.count-2 {
             if isCardVisible[i] {
@@ -110,7 +118,7 @@ struct SetCardGame
                 isCardVisible.append(true)
             }
         }
-        checkMatchAvailable()
+        checkIfMatchAvailable()
     }
 }
 

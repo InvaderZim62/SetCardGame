@@ -20,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Lp0-SP-gKA">
-                                <rect key="frame" x="16" y="20" width="343" height="300"/>
+                                <rect key="frame" x="16" y="36" width="343" height="300"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="J62-Oz-yuY">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="43.5"/>
@@ -271,7 +271,7 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Lp0-SP-gKA" secondAttribute="trailing" constant="16" id="1aq-HS-UFY"/>
                             <constraint firstItem="Lp0-SP-gKA" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="5Rm-kg-lhi"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="2Or-xi-FyE" secondAttribute="bottom" constant="20" id="FR8-v7-UVJ"/>
-                            <constraint firstItem="Lp0-SP-gKA" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="JCQ-3r-6H9"/>
+                            <constraint firstItem="Lp0-SP-gKA" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="16" id="JCQ-3r-6H9"/>
                             <constraint firstItem="2Or-xi-FyE" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="RQv-3I-vm3"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="ArX-qs-AVG" secondAttribute="bottom" constant="20" id="Rxw-Sz-aKm"/>
                             <constraint firstItem="ArX-qs-AVG" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" symbolic="YES" id="caj-Vi-DTU"/>
