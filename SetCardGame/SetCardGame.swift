@@ -11,9 +11,11 @@ import Foundation
 struct SetCardGame
 {
     var numberOfCardsDealt: Int
+    var numberOfPlacesAvailable: Int
     var numberOfCardsSelected = 0
     var isMatchMade: Bool?            // true if 3 selected and match, false if 3 selected and no match, else nil
     var isPreviousMatchMade = false   // true if 3 selected and match, else false
+    var isMatchAvailable = true
     var matchIndices = [Int]()
     var deck = SetCardDeck()
     var cardsDealt = [SetCard]()
@@ -21,8 +23,9 @@ struct SetCardGame
     var isCardVisible = [Bool]()      // same size as cardsDealt
     var gameOver = false
 
-    init(numberOfCardsDealt: Int) {
+    init(numberOfCardsDealt: Int, numberOfPlacesAvailable: Int) {
         self.numberOfCardsDealt = numberOfCardsDealt
+        self.numberOfPlacesAvailable = numberOfPlacesAvailable
         reset()
     }
     
@@ -41,6 +44,7 @@ struct SetCardGame
                         }
                     }
                 }
+                checkMatchAvailable()
             }
             if !(isPreviousMatchMade && matchIndices.contains(index)) {
                 isCardSelected[index] = !isCardSelected[index]      // select current card, unless it was part of the previous match
@@ -57,23 +61,39 @@ struct SetCardGame
         }
     }
     
-    func isMatchAvailable() -> Bool {
-        for i in 0..<cardsDealt.count {
+    mutating func deal3MoreCards() {
+        if cardsDealt.count <= numberOfPlacesAvailable - 3 {
+            for _ in 0..<3 {
+                if let card = deck.drawRandom() {
+                    cardsDealt.append(card)
+                    isCardSelected.append(false)
+                    isCardVisible.append(true)
+                }
+            }
+            checkMatchAvailable()
+        }
+    }
+    
+    mutating func checkMatchAvailable() {
+        isMatchAvailable = false
+        for i in 0..<cardsDealt.count-2 {
             if isCardVisible[i] {
-                for j in i..<cardsDealt.count {
+                for j in i+1..<cardsDealt.count-1 {
                     if isCardVisible[j] {
-                        for k in j..<cardsDealt.count {
+                        for k in j+1..<cardsDealt.count {
                             if isCardVisible[k] {
                                 let testCards = [cardsDealt[i], cardsDealt[j], cardsDealt[k]]
-                                let match = SetCard.checkFor3Matching(cards: testCards)
-                                if match == true { return true }
+                                isMatchAvailable = SetCard.checkFor3Matching(cards: testCards)
+                                if isMatchAvailable {
+                                    print("match: \(i),\(j),\(k)")
+                                    return
+                                }
                             }
                         }
                     }
                 }
             }
         }
-        return false
     }
 
     mutating func reset() {
@@ -90,6 +110,7 @@ struct SetCardGame
                 isCardVisible.append(true)
             }
         }
+        checkMatchAvailable()
     }
 }
 

@@ -254,7 +254,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title=" 3 More Cards "/>
                                 <connections>
-                                    <action selector="selectMoreCards:" destination="BYZ-38-t0r" eventType="touchUpInside" id="FNm-f6-t2X"/>
+                                    <action selector="select3MoreCards:" destination="BYZ-38-t0r" eventType="touchUpInside" id="FNm-f6-t2X"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ArX-qs-AVG">

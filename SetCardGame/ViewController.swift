@@ -11,11 +11,12 @@ import UIKit
 class ViewController: UIViewController
 {
     let numberOfCardsDealt = 12
-    lazy var game = SetCardGame(numberOfCardsDealt: numberOfCardsDealt)
+    let numberOfPlacesAvailable = 24
+    var isMatchAvailable = true
+    lazy var game = SetCardGame(numberOfCardsDealt: numberOfCardsDealt, numberOfPlacesAvailable: numberOfPlacesAvailable)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        game.reset()
         updateViewFromModel()
 //        for _ in 1...10 {
 //            if let card = game.deck.drawRandom() {
@@ -46,7 +47,9 @@ class ViewController: UIViewController
         updateViewFromModel()
     }
     
-    @IBAction func selectMoreCards(_ sender: UIButton) {
+    @IBAction func select3MoreCards(_ sender: UIButton) {
+        game.deal3MoreCards()
+        updateViewFromModel()
     }
     
     @IBAction func selectNewGame(_ sender: UIButton) {
@@ -77,7 +80,7 @@ class ViewController: UIViewController
                 }
             }
         }
-        moreCardsButton.layer.borderWidth = game.isMatchAvailable() ? 0 : 2
+        moreCardsButton.layer.borderWidth = game.isMatchAvailable ? 0 : 2
     }
     
     func symbolForCard(card: SetCard) -> NSAttributedString {
