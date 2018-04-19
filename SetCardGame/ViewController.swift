@@ -10,19 +10,14 @@ import UIKit
 
 class ViewController: UIViewController
 {
-    let numberOfCardsDealt = 12
-    let numberOfPlacesAvailable = 24
-    var isMatchAvailable = true
-    lazy var game = SetCardGame(numberOfCardsDealt: numberOfCardsDealt, numberOfPlacesAvailable: numberOfPlacesAvailable)
+    private let numberOfCardsDealt = 12
+    private let numberOfPlacesAvailable = 24
+    private var isMatchAvailable = true
+    private lazy var game = SetCardGame(numberOfCardsDealt: numberOfCardsDealt, numberOfPlacesAvailable: numberOfPlacesAvailable)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         updateViewFromModel()
-//        for _ in 1...10 {
-//            if let card = game.deck.drawRandom() {
-//                print("\(card)")                    // example of good place to put debug code
-//            }
-//        }
     }
 
     @IBOutlet weak var moreCardsButton: UIButton! {
@@ -64,14 +59,14 @@ class ViewController: UIViewController
         updateViewFromModel()
     }
     
-    func updateViewFromModel() {
+    private func updateViewFromModel() {
         for index in game.cardsDealt.indices {
             let button = cardButtons[index]
             let card = game.cardsDealt[index]
-            let visible = game.isCardVisible[index]
+            let isVisible = game.isCardVisible[index]
             let isSelected = game.isCardSelected[index]
-            button.isEnabled = visible
-            if visible {
+            button.isEnabled = isVisible
+            if isVisible {
                 button.setAttributedTitle(symbolForCard(card: card), for: UIControlState.normal)
             } else {
                 button.setAttributedTitle(nil, for: UIControlState.normal)
@@ -79,8 +74,8 @@ class ViewController: UIViewController
             button.layer.borderWidth = isSelected ? 3 : 1
             button.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
             if isSelected {
-                if let match = game.isMatchMade {
-                    button.layer.backgroundColor = match ? #colorLiteral(red: 0.814127624, green: 0.9532099366, blue: 0.850346446, alpha: 1) : #colorLiteral(red: 0.9486960769, green: 0.7929092646, blue: 0.8161730766, alpha: 1)
+                if let isMatch = game.isMatchMade {
+                    button.layer.backgroundColor = isMatch ? #colorLiteral(red: 0.814127624, green: 0.9532099366, blue: 0.850346446, alpha: 1) : #colorLiteral(red: 0.9486960769, green: 0.7929092646, blue: 0.8161730766, alpha: 1)
                 }
             }
         }
@@ -88,7 +83,7 @@ class ViewController: UIViewController
         newGameButton.layer.borderWidth = !game.isMatchAvailable && game.deck.cards.count == 0 ? 2 : 0
     }
     
-    func symbolForCard(card: SetCard) -> NSAttributedString {
+    private func symbolForCard(card: SetCard) -> NSAttributedString {
         var symbol: String
         switch card.symbol {
         case .shape1:

@@ -10,18 +10,18 @@ import Foundation
 
 struct SetCardGame
 {
-    var numberOfCardsDealt: Int
-    var numberOfPlacesAvailable: Int
-    var numberOfCardsSelected = 0
-    var isMatchMade: Bool?            // true if 3 selected and match, false if 3 selected and no match, else nil
-    var isPreviousMatchMade = false   // true if 3 selected and match, else false
-    var isMatchAvailable = true
-    var matchIndices = [Int]()
-    var deck = SetCardDeck()
-    var cardsDealt = [SetCard]()
-    var isCardSelected = [Bool]()     // same size as cardsDealt
-    var isCardVisible = [Bool]()      // same size as cardsDealt
-    var gameOver = false
+    private var numberOfCardsDealt: Int
+    private var numberOfPlacesAvailable: Int
+    private var numberOfCardsSelected = 0
+    private(set) var isMatchMade: Bool?       // true if 3 selected and match, false if 3 selected and no match, else nil
+    private var isPreviousMatchMade = false   // true if 3 selected and match, else false
+    private(set) var isMatchAvailable = true
+    private var matchIndices = [Int]()
+    private(set) var deck = SetCardDeck()
+    private(set) var cardsDealt = [SetCard]()
+    private(set) var isCardSelected = [Bool]()     // same size as cardsDealt
+    private(set) var isCardVisible = [Bool]()      // same size as cardsDealt
+    private(set) var gameOver = false
 
     init(numberOfCardsDealt: Int, numberOfPlacesAvailable: Int) {
         self.numberOfCardsDealt = numberOfCardsDealt
@@ -54,7 +54,7 @@ struct SetCardGame
         }
     }
     
-    mutating func replaceMatchedCards () {
+    private mutating func replaceMatchedCards () {
         for matchIndex in matchIndices {
             if let card = deck.drawRandom() {
                 cardsDealt[matchIndex] = card           // replace matched card with new card from deck
@@ -82,7 +82,7 @@ struct SetCardGame
         checkIfMatchAvailable()
     }
     
-    mutating func checkIfMatchAvailable() {
+    private mutating func checkIfMatchAvailable() {
         isMatchAvailable = false
         for i in 0..<cardsDealt.count-2 {
             if isCardVisible[i] {
