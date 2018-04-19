@@ -5,20 +5,23 @@
 //  Created by Phil Stern on 4/12/18.
 //  Copyright © 2018 Phil Stern. All rights reserved.
 //
+//  To hide strange xcode logs when running the simulator
+//  (ex. "Lazy loading NSBundle MobileCoreServices.framework")
+//  I did the following:
+//    Select: Product (top menu) > Scheme > Edit Scheme...
+//    In Environment Variables, set OS_ACTIVITY_MODE = disable
 
 import UIKit
 
 class ViewController: UIViewController
 {
+    // MARK: - Variables
     private let numberOfCardsDealt = 12
     private let numberOfPlacesAvailable = 24
     private var isMatchAvailable = true
     private lazy var game = SetCardGame(numberOfCardsDealt: numberOfCardsDealt, numberOfPlacesAvailable: numberOfPlacesAvailable)
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        updateViewFromModel()
-    }
+    // MARK: - Outlets and Actions
 
     @IBOutlet weak var moreCardsButton: UIButton! {
         didSet {
@@ -38,7 +41,7 @@ class ViewController: UIViewController
             _ = cardButtons.map { $0.layer.borderWidth = 1 }
         }
     }
-
+    
     @IBAction func touchCard(_ sender: UIButton) {
         if let index = cardButtons.index(of: sender) {
             game.cardSelected(at: index)
@@ -56,6 +59,13 @@ class ViewController: UIViewController
     @IBAction func selectNewGame(_ sender: UIButton) {
         game.reset()
         _ = cardButtons.map { $0.setAttributedTitle(nil, for: UIControlState.normal)}
+        updateViewFromModel()
+    }
+    
+    // MARK: - Functions
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
         updateViewFromModel()
     }
     

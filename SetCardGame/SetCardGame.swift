@@ -10,6 +10,7 @@ import Foundation
 
 struct SetCardGame
 {
+    // MARK: - Variables
     private var numberOfCardsDealt: Int
     private var numberOfPlacesAvailable: Int
     private var numberOfCardsSelected = 0
@@ -22,6 +23,8 @@ struct SetCardGame
     private(set) var isCardSelected = [Bool]()     // same size as cardsDealt
     private(set) var isCardVisible = [Bool]()      // same size as cardsDealt
     private(set) var gameOver = false
+
+    // MARK: - Functions
 
     init(numberOfCardsDealt: Int, numberOfPlacesAvailable: Int) {
         self.numberOfCardsDealt = numberOfCardsDealt
@@ -121,6 +124,8 @@ struct SetCardGame
         checkIfMatchAvailable()
     }
 }
+
+// MARK: - Extensions
 
 extension Array where Element: Equatable {
     func count(of element: Element) -> Int {

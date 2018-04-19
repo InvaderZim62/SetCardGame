@@ -10,8 +10,8 @@ import Foundation
 
 struct SetCard: CustomStringConvertible  // CustomStringConvertable protocol allows custom output for print (requies "var description")
 {
+    // MARK: - Variables
     var description: String { return "rank:\(rank) \(symbol) shading:\(shading) color:\(color)" }
-    
     let rank: Int
     let symbol: Symbol
     let shading: Shading
@@ -45,6 +45,8 @@ struct SetCard: CustomStringConvertible  // CustomStringConvertable protocol all
         static let all = [Color.one, .two, .three]
     }
     
+    // MARK: - Functions
+
     static func checkFor3Matching(cards: [SetCard]) -> Bool {
         assert(cards.count == 3, "SetCardGame.checkForMatch(\(cards.count)): there should be 3 selected cards, here")
         

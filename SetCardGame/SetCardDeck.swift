@@ -10,7 +10,10 @@ import Foundation
 
 struct SetCardDeck
 {
+    // MARK: - Variables
     private(set) var cards = [SetCard]()
+    
+    // MARK: - Functions
     
     init() {
         reset()
@@ -40,6 +43,8 @@ struct SetCardDeck
         }
     }
 }
+
+// MARK: - Extensions
 
 // extend int to return randome number from 0 to the int itself
 // Note: extensions can add computed properties, but not stored properties or propertiy observers
