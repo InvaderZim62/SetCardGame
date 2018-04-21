@@ -16,10 +16,13 @@ import UIKit
 class ViewController: UIViewController
 {
     // MARK: - Variables
-    private let numberOfCardsDealt = 12
-    private let numberOfPlacesAvailable = 24
+    private struct Constants {
+        static let numberOfCardsDealt = 12
+        static let numberOfPlacesAvailable = 24
+    }
     private var isMatchAvailable = true
-    private lazy var game = SetCardGame(numberOfCardsDealt: numberOfCardsDealt, numberOfPlacesAvailable: numberOfPlacesAvailable)
+    private lazy var game = SetCardGame(numberOfCardsDealt: Constants.numberOfCardsDealt,
+                                        numberOfPlacesAvailable: Constants.numberOfPlacesAvailable)
     
     // MARK: - Outlets and Actions
 
