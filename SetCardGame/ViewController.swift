@@ -38,20 +38,11 @@ class ViewController: UIViewController
         }
     }
     
-    @IBOutlet var cardButtons: [UIButton]! {
+    var cardButtons: [UIButton]! {
         didSet {
             _ = cardButtons.map { $0.layer.cornerRadius = 10 }
             _ = cardButtons.map { $0.layer.borderWidth = 1 }
         }
-    }
-    
-    @IBAction func touchCard(_ sender: UIButton) {
-        if let index = cardButtons.index(of: sender) {
-            game.cardSelected(at: index)
-        } else {
-            print("Selected button not found in cardButtons")
-        }
-        updateViewFromModel()
     }
     
     @IBAction func select3MoreCards(_ sender: UIButton) {
@@ -73,6 +64,7 @@ class ViewController: UIViewController
     }
     
     private func updateViewFromModel() {
+        return
         for index in game.cardsDealt.indices {
             let button = cardButtons[index]
             let card = game.cardsDealt[index]

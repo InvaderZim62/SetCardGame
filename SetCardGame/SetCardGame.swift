@@ -96,7 +96,7 @@ struct SetCardGame
                                 let testCards = [cardsDealt[i], cardsDealt[j], cardsDealt[k]]
                                 isMatchAvailable = SetCard.checkFor3Matching(cards: testCards)
                                 if isMatchAvailable {
-                                    print("available match: \(i),\(j),\(k)")
+                                    print("available match: \(i+1),\(j+1),\(k+1)")
                                     return
                                 }
                             }
