@@ -8,10 +8,10 @@
 
 import UIKit
 
-@IBDesignable
+@IBDesignable    // this causes storyboard to draw view
 class SetCardView: UIView {
     
-    @IBInspectable
+    @IBInspectable    // this causes rank to appear in Inspector for view
     var rank: Int = 0 { didSet { setNeedsDisplay(); setNeedsLayout() } }            // setNeedsDisplay for when card changes
     @IBInspectable
     var symbol: String = "oval" { didSet { setNeedsDisplay(); setNeedsLayout() } }  // setNeedsLayout for when bounds change
@@ -142,7 +142,7 @@ class SetCardView: UIView {
             UIRectFill(self.bounds);  //fill roundRect clipping area
             
         } else if self.shading == "striped" {
-            for i in stride(from: (1.0), to: CGFloat(2*maxDimension/stripeSpacing), by: 1.0) {
+            for i in stride(from: 1.0, to: CGFloat(2*maxDimension/stripeSpacing), by: 1.0) {
                 path.move(to: CGPoint(x: i*stripeSpacing, y: 0))
                 path.addLine(to: CGPoint(x: 0, y: i*stripeSpacing))
                 path.stroke()

@@ -46,12 +46,12 @@
                                     <userDefinedRuntimeAttribute type="number" keyPath="rank">
                                         <integer key="value" value="3"/>
                                     </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="symbol" value="squiggle"/>
                                     <userDefinedRuntimeAttribute type="color" keyPath="color">
                                         <color key="value" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="shading" value="striped"/>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="isSelected" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="shading" value="striped"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="symbol" value="squiggle"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
