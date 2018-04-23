@@ -8,16 +8,11 @@
 
 import UIKit
 
-@IBDesignable    // this causes storyboard to draw view
 class SetCardView: UIView {
     
-    @IBInspectable    // this causes rank to appear in Inspector for view
     var rank: Int = 0 { didSet { setNeedsDisplay(); setNeedsLayout() } }            // setNeedsDisplay for when card changes
-    @IBInspectable
     var symbol: String = "oval" { didSet { setNeedsDisplay(); setNeedsLayout() } }  // setNeedsLayout for when bounds change
-    @IBInspectable
     var shading: String = "solid" { didSet { setNeedsDisplay(); setNeedsLayout() } }
-    @IBInspectable
     var color: UIColor = .red { didSet { setNeedsDisplay(); setNeedsLayout() } }
     var isSelected: Bool = false { didSet { setNeedsDisplay(); setNeedsLayout() } }
 
