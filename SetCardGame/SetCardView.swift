@@ -10,17 +10,21 @@ import UIKit
 
 class SetCardView: UIView {
     
-    var rank: Int = 0 { didSet { setNeedsDisplay(); setNeedsLayout() } }            // setNeedsDisplay for when card changes
-    var symbol: String = "oval" { didSet { setNeedsDisplay(); setNeedsLayout() } }  // setNeedsLayout for when bounds change
-    var shading: String = "solid" { didSet { setNeedsDisplay(); setNeedsLayout() } }
-    var color: UIColor = .red { didSet { setNeedsDisplay(); setNeedsLayout() } }
+//    var rank: Int = 0 { didSet { setNeedsDisplay(); setNeedsLayout() } }            // setNeedsDisplay for when card changes
+//    var symbol: String = "oval" { didSet { setNeedsDisplay(); setNeedsLayout() } }  // setNeedsLayout for when bounds change
+//    var shading: String = "solid" { didSet { setNeedsDisplay(); setNeedsLayout() } }
+//    var color: UIColor = .red { didSet { setNeedsDisplay(); setNeedsLayout() } }
+    var rank: Int = 0
+    var symbol: String = "oval"
+    var shading: String = "solid"
+    var color: UIColor = .red
     var isSelected: Bool = false { didSet { setNeedsDisplay(); setNeedsLayout() } }
 
     override func draw(_ rect: CGRect) {
         let roundedRect = UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius)
         roundedRect.addClip()
         UIColor.white.setFill()
-        roundedRect.fill()
+        UIRectFill(self.bounds)        // fill whole view, limited to clipping path (roundedRect)
         UIColor.black.setStroke()
         roundedRect.lineWidth = isSelected ? 5 : 1
         roundedRect.stroke()
@@ -124,8 +128,7 @@ class SetCardView: UIView {
 
     private func fillShape(path: UIBezierPath, usingContext context: CGContext)
     {
-        let context = UIGraphicsGetCurrentContext()
-        if context != nil { context!.saveGState() }
+        context.saveGState()
         path.addClip()
         
         let width = self.bounds.size.width
@@ -134,8 +137,7 @@ class SetCardView: UIView {
         
         if self.shading == "solid" {
             self.color.setFill()
-            UIRectFill(self.bounds);  //fill roundRect clipping area
-            
+            UIRectFill(self.bounds);
         } else if self.shading == "striped" {
             for i in stride(from: 1.0, to: CGFloat(2*maxDimension/stripeSpacing), by: 1.0) {
                 path.move(to: CGPoint(x: i*stripeSpacing, y: 0))
@@ -143,9 +145,24 @@ class SetCardView: UIView {
                 path.stroke()
             }
         }
-        if context != nil { context!.restoreGState() }
+        context.restoreGState()
     }
 
+    func setup() {
+        self.backgroundColor = nil
+        self.isOpaque = false
+        self.contentMode = .redraw
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setup()
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
 }
 
 // extension borrowed from "Developing iOS 11 Apps with Swift", November 2017, Lecture 6

@@ -21,6 +21,7 @@ class ViewController: UIViewController
         static let numberOfPlacesAvailable = 24
     }
     private var isMatchAvailable = true
+    private var cardViews = [SetCardView]()
     private lazy var game = SetCardGame(numberOfCardsDealt: Constants.numberOfCardsDealt,
                                         numberOfPlacesAvailable: Constants.numberOfPlacesAvailable)
     
@@ -38,12 +39,7 @@ class ViewController: UIViewController
         }
     }
     
-    var cardButtons: [UIButton]! {
-        didSet {
-            _ = cardButtons.map { $0.layer.cornerRadius = 10 }
-            _ = cardButtons.map { $0.layer.borderWidth = 1 }
-        }
-    }
+    @IBOutlet weak var cardLayoutArea: UIView!
     
     @IBAction func select3MoreCards(_ sender: UIButton) {
         game.deal3MoreCards()
@@ -52,7 +48,6 @@ class ViewController: UIViewController
     
     @IBAction func selectNewGame(_ sender: UIButton) {
         game.reset()
-        _ = cardButtons.map { $0.setAttributedTitle(nil, for: UIControlState.normal)}
         updateViewFromModel()
     }
     
@@ -60,55 +55,95 @@ class ViewController: UIViewController
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        for _ in 0..<Constants.numberOfCardsDealt {
+            let cardView = SetCardView()
+            cardViews.append(cardView)
+        }
+        updateViewFromModel()
+    }
+    
+    override func viewDidLayoutSubviews() {   // called whenever bounds change
+        super.viewDidLayoutSubviews()
+        let cardWidth = 55.0
+        let cardHeight = 75.0
+        let layoutHeight = Double(cardLayoutArea.bounds.height)
+        let layoutWidth = Double(cardLayoutArea.bounds.width)
+        var count = 0
+        for j in stride(from: 0.0, to: layoutHeight - cardHeight, by: cardHeight + 5.0) {
+            for i in stride(from: 0.0, to: layoutWidth - cardWidth, by: cardWidth + 5.0) {
+                if count < Constants.numberOfCardsDealt {
+                    let view = cardViews[count]
+                    view.frame = CGRect(x: i, y: j, width: cardWidth, height: cardHeight)
+                    cardLayoutArea.addSubview(view)
+                    count += 1
+                }
+            }
+        }
         updateViewFromModel()
     }
     
     private func updateViewFromModel() {
-        return
-        for index in game.cardsDealt.indices {
-            let button = cardButtons[index]
-            let card = game.cardsDealt[index]
-            let isVisible = game.isCardVisible[index]
-            let isSelected = game.isCardSelected[index]
-            button.isEnabled = isVisible
-            if isVisible {
-                button.setAttributedTitle(symbolForCard(card: card), for: UIControlState.normal)
-            } else {
-                button.setAttributedTitle(nil, for: UIControlState.normal)
-            }
-            button.layer.borderWidth = isSelected ? 3 : 1
-            button.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-            if isSelected {
-                if let isMatch = game.isMatchMade {
-                    button.layer.backgroundColor = isMatch ? #colorLiteral(red: 0.814127624, green: 0.9532099366, blue: 0.850346446, alpha: 1) : #colorLiteral(red: 0.9486960769, green: 0.7929092646, blue: 0.8161730766, alpha: 1)
-                }
+        for cardView in self.cardViews {
+            if let cardViewIndex = cardViews.index(of: cardView) {
+                let setCard = game.cardsDealt[cardViewIndex]
+                cardView.rank = setCard.rank
+                cardView.symbol = symbolForCard(card: setCard)
+                cardView.color = colorForCard(card: setCard)
+                cardView.shading = shadingForCard(card: setCard)
+                cardView.isSelected = game.isCardSelected[cardViewIndex]
+                //            if (setCard.isMatched) [cardViewsToReplace addObject:cardView]
             }
         }
+//        for index in game.cardsDealt.indices {
+//            let button = cardButtons[index]
+//            let card = game.cardsDealt[index]
+//            let isVisible = game.isCardVisible[index]
+//            let isSelected = game.isCardSelected[index]
+//            button.isEnabled = isVisible
+//            if isVisible {
+//                button.setAttributedTitle(symbolForCard(card: card), for: UIControlState.normal)
+//            } else {
+//                button.setAttributedTitle(nil, for: UIControlState.normal)
+//            }
+//            button.layer.borderWidth = isSelected ? 3 : 1
+//            button.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+//            if isSelected {
+//                if let isMatch = game.isMatchMade {
+//                    button.layer.backgroundColor = isMatch ? #colorLiteral(red: 0.814127624, green: 0.9532099366, blue: 0.850346446, alpha: 1) : #colorLiteral(red: 0.9486960769, green: 0.7929092646, blue: 0.8161730766, alpha: 1)
+//                }
+//            }
+//        }
         moreCardsButton.layer.borderWidth = !game.isMatchAvailable && game.deck.cards.count > 0 ? 2 : 0
         newGameButton.layer.borderWidth = !game.isMatchAvailable && game.deck.cards.count == 0 ? 2 : 0
     }
     
-    private func symbolForCard(card: SetCard) -> NSAttributedString {
+    private func symbolForCard(card: SetCard) -> String {
         var symbol: String
         switch card.symbol {
         case .shape1:
-            symbol = "▲"
+            symbol = "diamond"
         case .shape2:
-            symbol = "●"
+            symbol = "oval"
         case .shape3:
-            symbol = "■"
+            symbol = "squiggle"
         }
-        
-        var shading: CGFloat
+        return symbol
+    }
+    
+    private func shadingForCard(card: SetCard) -> String {
+        var shading: String
         switch card.shading {
         case .style1:
-            shading = 0.0
+            shading = "solid"
         case .style2:
-            shading = 0.15
+            shading = "striped"
         case .style3:
-            shading = 1.0
+            shading = "none"
         }
+        return shading
+    }
 
+    private func colorForCard(card: SetCard) -> UIColor {
         var color: UIColor
         switch card.color {
         case .one:
@@ -118,16 +153,7 @@ class ViewController: UIViewController
         case .three:
             color = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
         }
-
-        let cardTitleString = String(repeating: symbol, count: card.rank)
-        
-        let attributes: [NSAttributedStringKey:Any] = [
-            .strokeColor: color,
-            .strokeWidth: -5,
-            .foregroundColor : color.withAlphaComponent(shading)
-        ]
-        
-        return NSAttributedString(string: cardTitleString, attributes: attributes)
+        return color
     }
 }
 
