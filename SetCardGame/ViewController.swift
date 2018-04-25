@@ -53,10 +53,13 @@ class ViewController: UIViewController
     
     // MARK: - Functions
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         for _ in 0..<Constants.numberOfCardsDealt {
             let cardView = SetCardView()
+            let tap = UITapGestureRecognizer(target: self, action: #selector(tappedCard))
+            tap.numberOfTapsRequired = 1
+            cardView.addGestureRecognizer(tap)
             cardViews.append(cardView)
         }
         updateViewFromModel()
@@ -82,6 +85,14 @@ class ViewController: UIViewController
         updateViewFromModel()
     }
     
+    @objc func tappedCard(sender: UITapGestureRecognizer) {
+        let cardView = sender.view as! SetCardView
+        if let index = cardViews.index(of: cardView) {
+            game.cardSelected(at: index)
+            updateViewFromModel()
+        }
+    }
+    
     private func updateViewFromModel() {
         for cardView in self.cardViews {
             if let cardViewIndex = cardViews.index(of: cardView) {
@@ -90,27 +101,23 @@ class ViewController: UIViewController
                 cardView.symbol = symbolForCard(card: setCard)
                 cardView.color = colorForCard(card: setCard)
                 cardView.shading = shadingForCard(card: setCard)
-                cardView.isSelected = game.isCardSelected[cardViewIndex]
-                //            if (setCard.isMatched) [cardViewsToReplace addObject:cardView]
+                cardView.backColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+                let isSelected = game.isCardSelected[cardViewIndex]
+                cardView.isSelected = isSelected
+                if isSelected {
+                    if let isMatch = game.isMatchMade {
+                        cardView.backColor = isMatch ? #colorLiteral(red: 0.814127624, green: 0.9532099366, blue: 0.850346446, alpha: 1) : #colorLiteral(red: 0.9486960769, green: 0.7929092646, blue: 0.8161730766, alpha: 1)
+                    }
+                }
             }
         }
 //        for index in game.cardsDealt.indices {
-//            let button = cardButtons[index]
-//            let card = game.cardsDealt[index]
 //            let isVisible = game.isCardVisible[index]
-//            let isSelected = game.isCardSelected[index]
 //            button.isEnabled = isVisible
 //            if isVisible {
 //                button.setAttributedTitle(symbolForCard(card: card), for: UIControlState.normal)
 //            } else {
 //                button.setAttributedTitle(nil, for: UIControlState.normal)
-//            }
-//            button.layer.borderWidth = isSelected ? 3 : 1
-//            button.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-//            if isSelected {
-//                if let isMatch = game.isMatchMade {
-//                    button.layer.backgroundColor = isMatch ? #colorLiteral(red: 0.814127624, green: 0.9532099366, blue: 0.850346446, alpha: 1) : #colorLiteral(red: 0.9486960769, green: 0.7929092646, blue: 0.8161730766, alpha: 1)
-//                }
 //            }
 //        }
         moreCardsButton.layer.borderWidth = !game.isMatchAvailable && game.deck.cards.count > 0 ? 2 : 0

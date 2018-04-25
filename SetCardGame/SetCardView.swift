@@ -9,21 +9,18 @@
 import UIKit
 
 class SetCardView: UIView {
-    
-//    var rank: Int = 0 { didSet { setNeedsDisplay(); setNeedsLayout() } }            // setNeedsDisplay for when card changes
-//    var symbol: String = "oval" { didSet { setNeedsDisplay(); setNeedsLayout() } }  // setNeedsLayout for when bounds change
-//    var shading: String = "solid" { didSet { setNeedsDisplay(); setNeedsLayout() } }
-//    var color: UIColor = .red { didSet { setNeedsDisplay(); setNeedsLayout() } }
+
     var rank: Int = 0
     var symbol: String = "oval"
     var shading: String = "solid"
     var color: UIColor = .red
+    var backColor: UIColor = .white { didSet { setNeedsDisplay(); setNeedsLayout() } }
     var isSelected: Bool = false { didSet { setNeedsDisplay(); setNeedsLayout() } }
 
     override func draw(_ rect: CGRect) {
         let roundedRect = UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius)
         roundedRect.addClip()
-        UIColor.white.setFill()
+        backColor.setFill()
         UIRectFill(self.bounds)        // fill whole view, limited to clipping path (roundedRect)
         UIColor.black.setStroke()
         roundedRect.lineWidth = isSelected ? 5 : 1

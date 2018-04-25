@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4A6F025A208D8A3800F6B2ED /* SetCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6F0259208D8A3800F6B2ED /* SetCardView.swift */; };
+		4A6F025C209003A300F6B2ED /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6F025B209003A000F6B2ED /* Grid.swift */; };
 		4AD5A7FA20803FE90030CE33 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD5A7F920803FE90030CE33 /* AppDelegate.swift */; };
 		4AD5A7FC20803FE90030CE33 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD5A7FB20803FE90030CE33 /* ViewController.swift */; };
 		4AD5A7FF20803FE90030CE33 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4AD5A7FD20803FE90030CE33 /* Main.storyboard */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		4A6F0259208D8A3800F6B2ED /* SetCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetCardView.swift; sourceTree = "<group>"; };
+		4A6F025B209003A000F6B2ED /* Grid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		4AD5A7F620803FE90030CE33 /* SetCardGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SetCardGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AD5A7F920803FE90030CE33 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4AD5A7FB20803FE90030CE33 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 				4AD5A81020807E910030CE33 /* SetCardDeck.swift */,
 				4AD5A80C20806A530030CE33 /* SetCard.swift */,
 				4A6F0259208D8A3800F6B2ED /* SetCardView.swift */,
+				4A6F025B209003A000F6B2ED /* Grid.swift */,
 				4AD5A80B208040400030CE33 /* Supporting Files */,
 				4AD5A80520803FE90030CE33 /* Info.plist */,
 			);
@@ -161,6 +164,7 @@
 				4AD5A80F20806F300030CE33 /* SetCardGame.swift in Sources */,
 				4AD5A80D20806A530030CE33 /* SetCard.swift in Sources */,
 				4AD5A7FC20803FE90030CE33 /* ViewController.swift in Sources */,
+				4A6F025C209003A300F6B2ED /* Grid.swift in Sources */,
 				4AD5A7FA20803FE90030CE33 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
