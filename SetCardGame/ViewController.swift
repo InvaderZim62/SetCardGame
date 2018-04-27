@@ -39,9 +39,23 @@ class ViewController: UIViewController
         }
     }
     
-    @IBOutlet weak var cardLayoutArea: UIView!
+    @IBOutlet weak var cardLayoutArea: UIView! {
+        didSet {
+            let swipe = UISwipeGestureRecognizer(target: self, action: #selector(swiped))
+            swipe.direction = .down
+            cardLayoutArea.addGestureRecognizer(swipe)
+        }
+    }
+    
+    @objc func swiped(sender: UISwipeGestureRecognizer) {
+        selectCards()
+    }
     
     @IBAction func select3MoreCards(_ sender: UIButton) {
+        selectCards()
+    }
+    
+    private func selectCards () {
         game.deal3MoreCards()
         addCardViews(count: game.cardsDealt.count - cardViews.count)
         layoutSubviews()
@@ -72,7 +86,7 @@ class ViewController: UIViewController
         }
     }
     
-    @objc func tappedCard(sender: UITapGestureRecognizer) {
+    @objc private func tappedCard(sender: UITapGestureRecognizer) {
         let cardView = sender.view as! SetCardView
         if let index = cardViews.index(of: cardView) {
             game.cardSelected(at: index)
