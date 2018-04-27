@@ -17,12 +17,12 @@ class ViewController: UIViewController
 {
     // MARK: - Variables
     private struct Constants {
-        static let numberOfCardsDealt = 12
+        static let initialNumberOfCardsDealt = 12
         static let numberOfPlacesAvailable = 24
     }
     private var isMatchAvailable = true
     private var cardViews = [SetCardView]()
-    private lazy var game = SetCardGame(numberOfCardsDealt: Constants.numberOfCardsDealt,
+    private lazy var game = SetCardGame(numberOfCardsDealt: Constants.initialNumberOfCardsDealt,
                                         numberOfPlacesAvailable: Constants.numberOfPlacesAvailable)
     
     // MARK: - Outlets and Actions
@@ -43,11 +43,14 @@ class ViewController: UIViewController
     
     @IBAction func select3MoreCards(_ sender: UIButton) {
         game.deal3MoreCards()
+        addCardViews(count: game.cardsDealt.count - cardViews.count)
+        layoutSubviews()
         updateViewFromModel()
     }
     
     @IBAction func selectNewGame(_ sender: UIButton) {
         game.reset()
+        self.reset()
         updateViewFromModel()
     }
     
@@ -55,34 +58,18 @@ class ViewController: UIViewController
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        for _ in 0..<Constants.numberOfCardsDealt {
+        addCardViews(count: Constants.initialNumberOfCardsDealt)
+        updateViewFromModel()
+    }
+    
+    func addCardViews(count: Int) {
+        for _ in 0..<count {
             let cardView = SetCardView()
             let tap = UITapGestureRecognizer(target: self, action: #selector(tappedCard))
             tap.numberOfTapsRequired = 1
             cardView.addGestureRecognizer(tap)
             cardViews.append(cardView)
         }
-        updateViewFromModel()
-    }
-    
-    override func viewDidLayoutSubviews() {   // called whenever bounds change
-        super.viewDidLayoutSubviews()
-        let cardWidth = 55.0
-        let cardHeight = 75.0
-        let layoutHeight = Double(cardLayoutArea.bounds.height)
-        let layoutWidth = Double(cardLayoutArea.bounds.width)
-        var count = 0
-        for j in stride(from: 0.0, to: layoutHeight - cardHeight, by: cardHeight + 5.0) {
-            for i in stride(from: 0.0, to: layoutWidth - cardWidth, by: cardWidth + 5.0) {
-                if count < Constants.numberOfCardsDealt {
-                    let view = cardViews[count]
-                    view.frame = CGRect(x: i, y: j, width: cardWidth, height: cardHeight)
-                    cardLayoutArea.addSubview(view)
-                    count += 1
-                }
-            }
-        }
-        updateViewFromModel()
     }
     
     @objc func tappedCard(sender: UITapGestureRecognizer) {
@@ -90,6 +77,30 @@ class ViewController: UIViewController
         if let index = cardViews.index(of: cardView) {
             game.cardSelected(at: index)
             updateViewFromModel()
+        }
+    }
+    
+    override func viewDidLayoutSubviews() {   // called whenever bounds change
+        super.viewDidLayoutSubviews()
+        self.layoutSubviews()
+        updateViewFromModel()
+    }
+    
+    private func layoutSubviews() {
+        let cardWidth = 62.0
+        let cardHeight = 80.0
+        let layoutHeight = Double(cardLayoutArea.bounds.height)
+        let layoutWidth = Double(cardLayoutArea.bounds.width)
+        var count = 0
+        for j in stride(from: 0.0, to: layoutHeight - cardHeight, by: cardHeight + 5.0) {
+            for i in stride(from: 0.0, to: layoutWidth - cardWidth, by: cardWidth + 5.0) {
+                if count < cardViews.count {
+                    let view = cardViews[count]
+                    view.frame = CGRect(x: i, y: j, width: cardWidth, height: cardHeight)
+                    cardLayoutArea.addSubview(view)
+                    count += 1
+                }
+            }
         }
     }
     
@@ -153,6 +164,13 @@ class ViewController: UIViewController
             color = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
         }
         return color
+    }
+    
+    private func reset() {
+        _ = cardViews.map { $0.removeFromSuperview() }
+        cardViews.removeAll()
+        addCardViews(count: Constants.initialNumberOfCardsDealt)
+        viewDidLayoutSubviews()
     }
 }
 

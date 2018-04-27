@@ -11,7 +11,7 @@ import Foundation
 struct SetCardGame
 {
     // MARK: - Variables
-    private var numberOfCardsDealt: Int
+    private var initialNumberOfCardsDealt: Int
     private var numberOfPlacesAvailable: Int
     private var numberOfCardsSelected = 0
     private(set) var isMatchMade: Bool?       // true if 3 selected and match, false if 3 selected and no match, else nil
@@ -27,7 +27,7 @@ struct SetCardGame
     // MARK: - Functions
 
     init(numberOfCardsDealt: Int, numberOfPlacesAvailable: Int) {
-        self.numberOfCardsDealt = numberOfCardsDealt
+        self.initialNumberOfCardsDealt = numberOfCardsDealt
         self.numberOfPlacesAvailable = numberOfPlacesAvailable
         reset()
     }
@@ -114,7 +114,7 @@ struct SetCardGame
         isCardSelected.removeAll()
         isCardVisible.removeAll()
         numberOfCardsSelected = 0
-        for _ in 0..<numberOfCardsDealt {
+        for _ in 0..<initialNumberOfCardsDealt {
             if let card = deck.drawRandom() {
                 cardsDealt.append(card)
                 isCardSelected.append(false)
