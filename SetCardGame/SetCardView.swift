@@ -10,6 +10,13 @@ import UIKit
 
 class SetCardView: UIView {
 
+    // MARK: - Variables
+    private struct Constants {
+        static let diamondThickness: CGFloat = 0.1  // percent of card width
+        static let ovalThickness: CGFloat = 0.1
+        static let squiggleThickness: CGFloat = 0.08
+        static let stripeSpacing: CGFloat = 0.1
+    }
     var rank: Int = 0
     var symbol: String = "oval"
     var shading: String = "solid"
@@ -17,6 +24,8 @@ class SetCardView: UIView {
     var backColor: UIColor = .white { didSet { setNeedsDisplay(); setNeedsLayout() } }
     var isSelected: Bool = false { didSet { setNeedsDisplay(); setNeedsLayout() } }
     var isVisible: Bool = false { didSet { setNeedsDisplay(); setNeedsLayout() } }
+
+    // MARK: - Functions
 
     override func draw(_ rect: CGRect) {
         let roundedRect = UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius)
@@ -55,11 +64,9 @@ class SetCardView: UIView {
         }
     }
     
-    let DIAMOND_THICKNESS: CGFloat = 0.1  //percent of card width
-    
     private func drawDiamondWithVerticalOffset(voffset: CGFloat) {
         let width = self.bounds.size.width
-        let diamondThickness = DIAMOND_THICKNESS*width
+        let diamondThickness = Constants.diamondThickness*width
         
         let path = UIBezierPath()
         path.move(to: CGPoint(x: 0.2*width, y: voffset))
@@ -76,11 +83,9 @@ class SetCardView: UIView {
         }
     }
     
-    let OVAL_THICKNESS: CGFloat = 0.1
-    
     private func drawOvalWithVerticalOffset(voffset: CGFloat) {
         let width = self.bounds.size.width
-        let ovalThickness = OVAL_THICKNESS*width
+        let ovalThickness = Constants.ovalThickness*width
         
         let ovalRect = CGRect(x: 0.2*width, y: voffset-ovalThickness, width: 0.6*width, height: 2*ovalThickness)
         let oval = UIBezierPath(ovalIn: ovalRect)
@@ -93,11 +98,9 @@ class SetCardView: UIView {
         }
     }
     
-    let SQUIGGLE_THICKNESS: CGFloat = 0.08
-    
     private func drawSquiggleWithVerticalOffset(voffset: CGFloat) {
         let width = self.bounds.size.width
-        let squiggleThickness = SQUIGGLE_THICKNESS*width;
+        let squiggleThickness = Constants.squiggleThickness*width;
         
         let path = UIBezierPath()
         path.move(to: CGPoint(x: 0.3*width, y: voffset-squiggleThickness))
@@ -126,15 +129,13 @@ class SetCardView: UIView {
         }
     }
     
-    let STRIPE_SPACING: CGFloat = 0.1
-
     private func fillShape(path: UIBezierPath, usingContext context: CGContext)
     {
         context.saveGState()
         path.addClip()
         
         let width = self.bounds.size.width
-        let stripeSpacing = STRIPE_SPACING*width
+        let stripeSpacing = Constants.stripeSpacing*width
         let maxDimension = max(self.bounds.size.height, width)
         
         if self.shading == "solid" {
@@ -167,6 +168,7 @@ class SetCardView: UIView {
     }
 }
 
+// MARK: - Extensions
 // extension borrowed from "Developing iOS 11 Apps with Swift", November 2017, Lecture 6
 
 extension SetCardView {
