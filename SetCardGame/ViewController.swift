@@ -101,6 +101,7 @@ class ViewController: UIViewController
                 cardView.symbol = symbolForCard(card: setCard)
                 cardView.color = colorForCard(card: setCard)
                 cardView.shading = shadingForCard(card: setCard)
+                cardView.isVisible = game.isCardVisible[cardViewIndex]
                 cardView.backColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
                 let isSelected = game.isCardSelected[cardViewIndex]
                 cardView.isSelected = isSelected
@@ -111,15 +112,6 @@ class ViewController: UIViewController
                 }
             }
         }
-//        for index in game.cardsDealt.indices {
-//            let isVisible = game.isCardVisible[index]
-//            button.isEnabled = isVisible
-//            if isVisible {
-//                button.setAttributedTitle(symbolForCard(card: card), for: UIControlState.normal)
-//            } else {
-//                button.setAttributedTitle(nil, for: UIControlState.normal)
-//            }
-//        }
         moreCardsButton.layer.borderWidth = !game.isMatchAvailable && game.deck.cards.count > 0 ? 2 : 0
         newGameButton.layer.borderWidth = !game.isMatchAvailable && game.deck.cards.count == 0 ? 2 : 0
     }
