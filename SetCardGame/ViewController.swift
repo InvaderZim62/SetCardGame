@@ -47,15 +47,15 @@ class ViewController: UIViewController
         }
     }
     
-    @objc func swiped(sender: UISwipeGestureRecognizer) {
-        selectCards()
+    @objc func swiped() {
+        add3Cards()
     }
     
     @IBAction func select3MoreCards(_ sender: UIButton) {
-        selectCards()
+        add3Cards()
     }
     
-    private func selectCards () {
+    private func add3Cards () {
         game.deal3MoreCards()
         addCardViews(count: game.cardsDealt.count - cardViews.count)
         layoutSubviews()
