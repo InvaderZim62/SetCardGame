@@ -5,11 +5,6 @@
 //  Created by Phil Stern on 4/12/18.
 //  Copyright © 2018 Phil Stern. All rights reserved.
 //
-//  To hide strange xcode logs when running the simulator
-//  (ex. "Lazy loading NSBundle MobileCoreServices.framework")
-//  I did the following:
-//    Select: Product (top menu) > Scheme > Edit Scheme...
-//    In Environment Variables, set OS_ACTIVITY_MODE = disable
 
 import UIKit
 
@@ -18,12 +13,10 @@ class ViewController: UIViewController
     // MARK: - Variables
     private struct Constants {
         static let initialNumberOfCardsDealt = 12
-        static let numberOfPlacesAvailable = 24
     }
     private var isMatchAvailable = true
     private var cardViews = [SetCardView]()
-    private lazy var game = SetCardGame(numberOfCardsDealt: Constants.initialNumberOfCardsDealt,
-                                        numberOfPlacesAvailable: Constants.numberOfPlacesAvailable)
+    private lazy var game = SetCardGame(numberOfCardsDealt: Constants.initialNumberOfCardsDealt)
     
     // MARK: - Outlets and Actions
 
@@ -101,6 +94,25 @@ class ViewController: UIViewController
     }
     
     private func layoutSubviews() {
+        var grid = Grid(layout: .aspectRatio(0.7), frame: cardLayoutArea.bounds)
+        grid.cellCount = cardViews.count
+        var count = 0
+        for j in 0..<grid.dimensions.rowCount {
+            for i in 0..<grid.dimensions.columnCount {
+                if count < cardViews.count {
+                    let view = cardViews[count]
+                    view.frame = grid[j,i]!               // add protection for nil
+                    let spaceBetweenCards = 0.04*view.frame.size.width
+                    view.frame = view.frame.insetBy(dx: spaceBetweenCards,
+                                                    dy: spaceBetweenCards);
+                    cardLayoutArea.addSubview(view)
+                    count += 1
+                }
+            }
+        }
+    }
+    
+    private func layoutSubviewsOld() {
         let cardWidth = 62.0
         let cardHeight = 80.0
         let layoutHeight = Double(cardLayoutArea.bounds.height)

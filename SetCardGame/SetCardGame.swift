@@ -12,7 +12,6 @@ struct SetCardGame
 {
     // MARK: - Variables
     private var initialNumberOfCardsDealt: Int
-    private var numberOfPlacesAvailable: Int
     private var numberOfCardsSelected = 0
     private(set) var isMatchMade: Bool?       // true if 3 selected and match, false if 3 selected and no match, else nil
     private var isPreviousMatchMade = false   // true if 3 selected and match, else false
@@ -26,9 +25,8 @@ struct SetCardGame
 
     // MARK: - Functions
 
-    init(numberOfCardsDealt: Int, numberOfPlacesAvailable: Int) {
+    init(numberOfCardsDealt: Int) {
         self.initialNumberOfCardsDealt = numberOfCardsDealt
-        self.numberOfPlacesAvailable = numberOfPlacesAvailable
         reset()
     }
     
@@ -73,7 +71,7 @@ struct SetCardGame
         if isPreviousMatchMade {
             replaceMatchedCards()
             isPreviousMatchMade = false
-        } else if cardsDealt.count <= numberOfPlacesAvailable - 3 {
+        } else {
             for _ in 0..<3 {
                 if let card = deck.drawRandom() {
                     cardsDealt.append(card)
