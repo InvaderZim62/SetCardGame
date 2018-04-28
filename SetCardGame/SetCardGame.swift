@@ -13,14 +13,14 @@ struct SetCardGame
     // MARK: - Variables
     private var initialNumberOfCardsDealt: Int
     private var numberOfCardsSelected = 0
-    private(set) var isMatchMade: Bool?              // true if 3 selected and match, false if 3 selected and no match, else nil
-    private var isPreviousMatchMade = false          // true if 3 selected and match, else false
+    private var isPreviousMatchMade = false          // true if 3 selected and matched, else false
+    private(set) var isMatchMade: Bool?              // true if 3 selected and matched, false if 3 selected and no match, else nil
     private(set) var isMatchAvailable = true
     private(set) var matchIndices = [Int]()          // indices of three selected and matched cards
     private(set) var potentialMatchIndices = [Int]() // indices of three unselected matched cards
     private(set) var deck = SetCardDeck()
     private(set) var cardsDealt = [SetCard]()
-    private(set) var isCardSelected = [Bool]()       // same size as cardsDealt
+    private(set) var isCardSelected = [Bool]()       // keep the same size as cardsDealt
 
     // MARK: - Functions
 

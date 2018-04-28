@@ -17,7 +17,6 @@ class ViewController: UIViewController
         static let cardAspectRatio:CGFloat = 0.7
         static let spaceBetweenCards:CGFloat = 0.04        // percentage of card width
     }
-    private var isMatchAvailable = true
     private var isShowMatches = false
     private var cardViews = [SetCardView]()
     private lazy var game = SetCardGame(numberOfCardsDealt: Constants.initialNumberOfCardsDealt)
@@ -134,18 +133,15 @@ class ViewController: UIViewController
             cardView.symbol = symbolForCard(card: card)
             cardView.color = colorForCard(card: card)
             cardView.shading = shadingForCard(card: card)
-            if isShowMatches && game.potentialMatchIndices.contains(index) {
-                cardView.backColor = #colorLiteral(red: 0.9995340705, green: 0.9458183468, blue: 0.7034410847, alpha: 1)
-            } else {
-                cardView.backColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-            }
-            let isSelected = game.isCardSelected[index]
-            cardView.isSelected = isSelected
-            if isSelected {
-                if let isMatch = game.isMatchMade {
+            cardView.isSelected = game.isCardSelected[index]
+            cardView.backColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+            if let isMatch = game.isMatchMade {      // isMatch is nil until any 3 cards are selected
+                if cardView.isSelected {
                     cardView.backColor = isMatch ? #colorLiteral(red: 0.814127624, green: 0.9532099366, blue: 0.850346446, alpha: 1) : #colorLiteral(red: 0.9486960769, green: 0.7929092646, blue: 0.8161730766, alpha: 1)
                     isShowMatches = false
                 }
+            } else if isShowMatches && game.potentialMatchIndices.contains(index) {
+                cardView.backColor = #colorLiteral(red: 0.9995340705, green: 0.9458183468, blue: 0.7034410847, alpha: 1)
             }
         }
         moreCardsButton.layer.borderWidth = !game.isMatchAvailable && game.deck.cards.count > 0 ? 2 : 0
