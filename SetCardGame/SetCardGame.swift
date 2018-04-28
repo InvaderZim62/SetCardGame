@@ -33,13 +33,15 @@ struct SetCardGame
             numberOfCardsSelected = isCardSelected.count(of: true)  // uses an extention, below
             if numberOfCardsSelected == 3 {                         // if selected a card while 3 are already selected
                 isCardSelected = isCardSelected.map { _ in false }  // clear all selections
+                if !(isPreviousMatchMade && matchIndices.contains(index)) {
+                    isCardSelected[index] = !isCardSelected[index]  // select current card, unless it was part of the previous match
+                }
                 if isPreviousMatchMade {
                     replaceMatchedCards()
                 }
                 checkIfMatchAvailable()
-            }
-            if !(isPreviousMatchMade && matchIndices.contains(index)) {
-                isCardSelected[index] = !isCardSelected[index]      // select current card, unless it was part of the previous match
+            } else {
+                isCardSelected[index] = !isCardSelected[index]
             }
             isMatchMade = nil
             numberOfCardsSelected = isCardSelected.count(of: true)
