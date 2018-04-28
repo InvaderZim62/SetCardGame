@@ -16,12 +16,10 @@ struct SetCardGame
     private(set) var isMatchMade: Bool?       // true if 3 selected and match, false if 3 selected and no match, else nil
     private var isPreviousMatchMade = false   // true if 3 selected and match, else false
     private(set) var isMatchAvailable = true
-    private var matchIndices = [Int]()
+    private(set) var matchIndices = [Int]()
     private(set) var deck = SetCardDeck()
     private(set) var cardsDealt = [SetCard]()
     private(set) var isCardSelected = [Bool]()     // same size as cardsDealt
-    private(set) var isCardVisible = [Bool]()      // same size as cardsDealt
-    private(set) var gameOver = false
 
     // MARK: - Functions
 
@@ -55,13 +53,13 @@ struct SetCardGame
         }
     }
     
-    private mutating func replaceMatchedCards () {
-        for matchIndex in matchIndices {
+    private mutating func replaceMatchedCards() {
+        for matchIndex in matchIndices.reversed() {
             if let card = deck.drawRandom() {
                 cardsDealt[matchIndex] = card           // replace matched card with new card from deck
             } else {
-                isCardVisible[matchIndex] = false       // hide matched card, since deck is empty
-                if isCardVisible.count(of: true) == 0 { gameOver = true }
+                cardsDealt.remove(at: matchIndex)
+                isCardSelected.remove(at: matchIndex)
             }
         }
     }
@@ -76,7 +74,6 @@ struct SetCardGame
                 if let card = deck.drawRandom() {
                     cardsDealt.append(card)
                     isCardSelected.append(false)
-                    isCardVisible.append(true)
                 }
             }
         }
@@ -85,20 +82,15 @@ struct SetCardGame
     
     private mutating func checkIfMatchAvailable() {
         isMatchAvailable = false
+        if cardsDealt.count == 0 { return }
         for i in 0..<cardsDealt.count-2 {
-            if isCardVisible[i] {
-                for j in i+1..<cardsDealt.count-1 {
-                    if isCardVisible[j] {
-                        for k in j+1..<cardsDealt.count {
-                            if isCardVisible[k] {
-                                let testCards = [cardsDealt[i], cardsDealt[j], cardsDealt[k]]
-                                isMatchAvailable = SetCard.checkFor3Matching(cards: testCards)
-                                if isMatchAvailable {
-                                    print("available match: \(i+1),\(j+1),\(k+1)")
-                                    return
-                                }
-                            }
-                        }
+            for j in i+1..<cardsDealt.count-1 {
+                for k in j+1..<cardsDealt.count {
+                    let testCards = [cardsDealt[i], cardsDealt[j], cardsDealt[k]]
+                    isMatchAvailable = SetCard.checkFor3Matching(cards: testCards)
+                    if isMatchAvailable {
+                        print("available match: \(i+1),\(j+1),\(k+1)")
+                        return
                     }
                 }
             }
@@ -106,17 +98,14 @@ struct SetCardGame
     }
 
     mutating func reset() {
-        gameOver = false
         deck.reset()
         cardsDealt.removeAll()
         isCardSelected.removeAll()
-        isCardVisible.removeAll()
         numberOfCardsSelected = 0
         for _ in 0..<initialNumberOfCardsDealt {
             if let card = deck.drawRandom() {
                 cardsDealt.append(card)
                 isCardSelected.append(false)
-                isCardVisible.append(true)
             }
         }
         checkIfMatchAvailable()

@@ -23,17 +23,12 @@ class SetCardView: UIView {
     var color: UIColor = .red
     var backColor: UIColor = .white { didSet { setNeedsDisplay(); setNeedsLayout() } }
     var isSelected: Bool = false { didSet { setNeedsDisplay(); setNeedsLayout() } }
-    var isVisible: Bool = false { didSet { setNeedsDisplay(); setNeedsLayout() } }
 
     // MARK: - Functions
 
     override func draw(_ rect: CGRect) {
         let roundedRect = UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius)
         roundedRect.addClip()
-        if !isVisible {
-            UIColor.clear.setFill()
-            return
-        }
         backColor.setFill()
         UIRectFill(self.bounds)        // fill whole view, limited to clipping path (roundedRect)
         UIColor.black.setStroke()

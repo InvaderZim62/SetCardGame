@@ -86,6 +86,13 @@ class ViewController: UIViewController
         let cardView = sender.view as! SetCardView
         if let index = cardViews.index(of: cardView) {
             game.cardSelected(at: index)
+            if cardViews.count > game.cardsDealt.count {      // assumption is cards were removed, instead of replaced
+                for index in game.matchIndices.reversed() {   // since no more cards in deck
+                    cardViews[index].removeFromSuperview()
+                    cardViews.remove(at: index)
+                    layoutSubviews()
+                }
+            }
             updateViewFromModel()
         }
     }
@@ -124,7 +131,6 @@ class ViewController: UIViewController
                 cardView.symbol = symbolForCard(card: setCard)
                 cardView.color = colorForCard(card: setCard)
                 cardView.shading = shadingForCard(card: setCard)
-                cardView.isVisible = game.isCardVisible[cardViewIndex]
                 cardView.backColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
                 let isSelected = game.isCardSelected[cardViewIndex]
                 cardView.isSelected = isSelected
