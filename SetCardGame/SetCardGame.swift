@@ -13,13 +13,14 @@ struct SetCardGame
     // MARK: - Variables
     private var initialNumberOfCardsDealt: Int
     private var numberOfCardsSelected = 0
-    private(set) var isMatchMade: Bool?       // true if 3 selected and match, false if 3 selected and no match, else nil
-    private var isPreviousMatchMade = false   // true if 3 selected and match, else false
+    private(set) var isMatchMade: Bool?              // true if 3 selected and match, false if 3 selected and no match, else nil
+    private var isPreviousMatchMade = false          // true if 3 selected and match, else false
     private(set) var isMatchAvailable = true
-    private(set) var matchIndices = [Int]()
+    private(set) var matchIndices = [Int]()          // indices of three selected and matched cards
+    private(set) var potentialMatchIndices = [Int]() // indices of three unselected matched cards
     private(set) var deck = SetCardDeck()
     private(set) var cardsDealt = [SetCard]()
-    private(set) var isCardSelected = [Bool]()     // same size as cardsDealt
+    private(set) var isCardSelected = [Bool]()       // same size as cardsDealt
 
     // MARK: - Functions
 
@@ -84,6 +85,7 @@ struct SetCardGame
     
     private mutating func checkIfMatchAvailable() {
         isMatchAvailable = false
+        potentialMatchIndices = []
         if cardsDealt.count == 0 { return }
         for i in 0..<cardsDealt.count-2 {
             for j in i+1..<cardsDealt.count-1 {
@@ -92,6 +94,7 @@ struct SetCardGame
                     isMatchAvailable = SetCard.checkFor3Matching(cards: testCards)
                     if isMatchAvailable {
                         print("available match: \(i+1),\(j+1),\(k+1)")
+                        potentialMatchIndices = [i, j, k]
                         return
                     }
                 }

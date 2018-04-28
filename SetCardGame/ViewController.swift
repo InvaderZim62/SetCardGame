@@ -18,6 +18,7 @@ class ViewController: UIViewController
         static let spaceBetweenCards:CGFloat = 0.04        // percentage of card width
     }
     private var isMatchAvailable = true
+    private var isShowMatches = false
     private var cardViews = [SetCardView]()
     private lazy var game = SetCardGame(numberOfCardsDealt: Constants.initialNumberOfCardsDealt)
     
@@ -29,6 +30,7 @@ class ViewController: UIViewController
         }
     }
     
+
     @IBOutlet weak var newGameButton: UIButton! {
         didSet {
             newGameButton.layer.cornerRadius = Constants.buttonCornerRadius
@@ -37,27 +39,28 @@ class ViewController: UIViewController
     
     @IBOutlet weak var cardLayoutArea: UIView! {
         didSet {
-            let swipe = UISwipeGestureRecognizer(target: self, action: #selector(swiped))
+            let swipe = UISwipeGestureRecognizer(target: self, action: #selector(add3Cards))
             swipe.direction = .down
             cardLayoutArea.addGestureRecognizer(swipe)
         }
-    }
-    
-    @objc func swiped() {
-        add3Cards()
     }
     
     @IBAction func select3MoreCards(_ sender: UIButton) {
         add3Cards()
     }
     
-    private func add3Cards () {
+    @objc private func add3Cards () {
         game.deal3MoreCards()
         addCardViews(count: game.cardsDealt.count - cardViews.count)
         layoutSubviews()
         updateViewFromModel()
     }
     
+    @IBAction func selectHint(_ sender: UIButton) {
+        isShowMatches = !isShowMatches
+        updateViewFromModel()
+    }
+
     @IBAction func selectNewGame(_ sender: UIButton) {
         game.reset()
         self.reset()
@@ -125,19 +128,23 @@ class ViewController: UIViewController
     
     private func updateViewFromModel() {
         for cardView in self.cardViews {
-            if let cardViewIndex = cardViews.index(of: cardView) {
-                let setCard = game.cardsDealt[cardViewIndex]
-                cardView.rank = setCard.rank
-                cardView.symbol = symbolForCard(card: setCard)
-                cardView.color = colorForCard(card: setCard)
-                cardView.shading = shadingForCard(card: setCard)
+            let index = cardViews.index(of: cardView)!
+            let card = game.cardsDealt[index]
+            cardView.rank = card.rank
+            cardView.symbol = symbolForCard(card: card)
+            cardView.color = colorForCard(card: card)
+            cardView.shading = shadingForCard(card: card)
+            if isShowMatches && game.potentialMatchIndices.contains(index) {
+                cardView.backColor = #colorLiteral(red: 0.9995340705, green: 0.9458183468, blue: 0.7034410847, alpha: 1)
+            } else {
                 cardView.backColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-                let isSelected = game.isCardSelected[cardViewIndex]
-                cardView.isSelected = isSelected
-                if isSelected {
-                    if let isMatch = game.isMatchMade {
-                        cardView.backColor = isMatch ? #colorLiteral(red: 0.814127624, green: 0.9532099366, blue: 0.850346446, alpha: 1) : #colorLiteral(red: 0.9486960769, green: 0.7929092646, blue: 0.8161730766, alpha: 1)
-                    }
+            }
+            let isSelected = game.isCardSelected[index]
+            cardView.isSelected = isSelected
+            if isSelected {
+                if let isMatch = game.isMatchMade {
+                    cardView.backColor = isMatch ? #colorLiteral(red: 0.814127624, green: 0.9532099366, blue: 0.850346446, alpha: 1) : #colorLiteral(red: 0.9486960769, green: 0.7929092646, blue: 0.8161730766, alpha: 1)
+                    isShowMatches = false
                 }
             }
         }
