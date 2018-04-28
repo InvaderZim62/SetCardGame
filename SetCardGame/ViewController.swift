@@ -196,6 +196,7 @@ class ViewController: UIViewController
         cardViews.removeAll()
         addCardViews(count: Constants.initialNumberOfCardsDealt)
         viewDidLayoutSubviews()
+        isShowMatches = false
     }
 }
 
