@@ -12,10 +12,10 @@ class SetCardView: UIView {
 
     // MARK: - Variables
     private struct Constants {
-        static let diamondThickness: CGFloat = 0.1  // percent of card width
+        static let diamondThickness: CGFloat = 0.1  // all are a percentage of card width
         static let ovalThickness: CGFloat = 0.1
         static let squiggleThickness: CGFloat = 0.08
-        static let stripeSpacing: CGFloat = 0.1
+        static let stripeSpacing: CGFloat = 0.13
     }
     var rank: Int = 0
     var symbol: String = "oval"

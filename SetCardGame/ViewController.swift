@@ -13,6 +13,9 @@ class ViewController: UIViewController
     // MARK: - Variables
     private struct Constants {
         static let initialNumberOfCardsDealt = 12
+        static let buttonCornerRadius:CGFloat = 10
+        static let cardAspectRatio:CGFloat = 0.7
+        static let spaceBetweenCards:CGFloat = 0.04        // percentage of card width
     }
     private var isMatchAvailable = true
     private var cardViews = [SetCardView]()
@@ -22,13 +25,13 @@ class ViewController: UIViewController
 
     @IBOutlet weak var moreCardsButton: UIButton! {
         didSet {
-            moreCardsButton.layer.cornerRadius = 10
+            moreCardsButton.layer.cornerRadius = Constants.buttonCornerRadius
         }
     }
     
     @IBOutlet weak var newGameButton: UIButton! {
         didSet {
-            newGameButton.layer.cornerRadius = 10
+            newGameButton.layer.cornerRadius = Constants.buttonCornerRadius
         }
     }
     
@@ -94,37 +97,20 @@ class ViewController: UIViewController
     }
     
     private func layoutSubviews() {
-        var grid = Grid(layout: .aspectRatio(0.7), frame: cardLayoutArea.bounds)
+        var grid = Grid(layout: .aspectRatio(Constants.cardAspectRatio), frame: cardLayoutArea.bounds)
         grid.cellCount = cardViews.count
         var count = 0
-        for j in 0..<grid.dimensions.rowCount {
-            for i in 0..<grid.dimensions.columnCount {
+        for row in 0..<grid.dimensions.rowCount {
+            for col in 0..<grid.dimensions.columnCount {
                 if count < cardViews.count {
                     let view = cardViews[count]
-                    view.frame = grid[j,i]!               // add protection for nil
-                    let spaceBetweenCards = 0.04*view.frame.size.width
-                    view.frame = view.frame.insetBy(dx: spaceBetweenCards,
-                                                    dy: spaceBetweenCards);
-                    cardLayoutArea.addSubview(view)
-                    count += 1
-                }
-            }
-        }
-    }
-    
-    private func layoutSubviewsOld() {
-        let cardWidth = 62.0
-        let cardHeight = 80.0
-        let layoutHeight = Double(cardLayoutArea.bounds.height)
-        let layoutWidth = Double(cardLayoutArea.bounds.width)
-        var count = 0
-        for j in stride(from: 0.0, to: layoutHeight - cardHeight, by: cardHeight + 5.0) {
-            for i in stride(from: 0.0, to: layoutWidth - cardWidth, by: cardWidth + 5.0) {
-                if count < cardViews.count {
-                    let view = cardViews[count]
-                    view.frame = CGRect(x: i, y: j, width: cardWidth, height: cardHeight)
-                    cardLayoutArea.addSubview(view)
-                    count += 1
+                    if let gridFrame = grid[row,col] {
+                        view.frame = gridFrame
+                        let spaceBetweenCards = Constants.spaceBetweenCards * view.frame.size.width
+                        view.frame = view.frame.insetBy(dx: spaceBetweenCards, dy: spaceBetweenCards);
+                        cardLayoutArea.addSubview(view)
+                        count += 1
+                    }
                 }
             }
         }
