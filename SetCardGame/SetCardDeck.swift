@@ -27,7 +27,7 @@ struct SetCardDeck
                     for color in SetCard.Color.all {
                         cards.append(SetCard(rank: rank, symbol: symbol, shading: shading, color: color))
                     }
-                    // for debugging with smaller deck, comment out inner for-loop and use next line 
+                    // for debugging with smaller deck, comment out inner for-loop and use next line
 //                    cards.append(SetCard(rank: rank, symbol: symbol, shading: shading, color: SetCard.Color.one))
                 }
             }

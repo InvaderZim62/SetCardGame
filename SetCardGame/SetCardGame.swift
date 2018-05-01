@@ -113,6 +113,7 @@ struct SetCardGame
                 isCardSelected.append(false)
             }
         }
+        isMatchMade = nil
         checkIfMatchAvailable()
     }
 }

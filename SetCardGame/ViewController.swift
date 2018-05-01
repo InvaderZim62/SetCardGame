@@ -17,7 +17,7 @@ class ViewController: UIViewController
         static let cardAspectRatio:CGFloat = 0.7
         static let spaceBetweenCards:CGFloat = 0.04        // percentage of card width
     }
-    private var isShowMatches = false
+    private var isShowHint = false
     private var cardViews = [SetCardView]()
     private lazy var game = SetCardGame(numberOfCardsDealt: Constants.initialNumberOfCardsDealt)
     
@@ -56,7 +56,7 @@ class ViewController: UIViewController
     }
     
     @IBAction func selectHint(_ sender: UIButton) {
-        isShowMatches = !isShowMatches
+        isShowHint = !isShowHint
         updateViewFromModel()
     }
 
@@ -74,7 +74,7 @@ class ViewController: UIViewController
         updateViewFromModel()
     }
     
-    func addCardViews(count: Int) {
+    func addCardViews(count: Int) {         // cardViews created here and positioned in layoutSubviews
         for _ in 0..<count {
             let cardView = SetCardView()
             let tap = UITapGestureRecognizer(target: self, action: #selector(tappedCard))
@@ -88,12 +88,12 @@ class ViewController: UIViewController
         let cardView = sender.view as! SetCardView
         if let index = cardViews.index(of: cardView) {
             game.cardSelected(at: index)
-            if cardViews.count > game.cardsDealt.count {      // assumption is cards were removed, instead of replaced
-                for index in game.matchIndices.reversed() {   // since no more cards in deck
+            if cardViews.count > game.cardsDealt.count {      // check if cards were removed, instead of
+                for index in game.matchIndices.reversed() {   // replaced (due to no more cards in deck)
                     cardViews[index].removeFromSuperview()
                     cardViews.remove(at: index)
-                    layoutSubviews()
                 }
+                layoutSubviews()
             }
             updateViewFromModel()
         }
@@ -126,8 +126,8 @@ class ViewController: UIViewController
     }
     
     private func updateViewFromModel() {
-        for cardView in self.cardViews {
-            let index = cardViews.index(of: cardView)!
+        for index in self.cardViews.indices {
+            let cardView = cardViews[index]
             let card = game.cardsDealt[index]
             cardView.rank = card.rank
             cardView.symbol = symbolForCard(card: card)
@@ -138,9 +138,9 @@ class ViewController: UIViewController
             if let isMatch = game.isMatchMade {      // isMatch is nil until any 3 cards are selected
                 if cardView.isSelected {
                     cardView.backColor = isMatch ? #colorLiteral(red: 0.814127624, green: 0.9532099366, blue: 0.850346446, alpha: 1) : #colorLiteral(red: 0.9486960769, green: 0.7929092646, blue: 0.8161730766, alpha: 1)
-                    isShowMatches = false
+                    isShowHint = false
                 }
-            } else if isShowMatches && game.potentialMatchIndices.contains(index) {
+            } else if isShowHint && game.potentialMatchIndices.contains(index) {
                 cardView.backColor = #colorLiteral(red: 0.9995340705, green: 0.9458183468, blue: 0.7034410847, alpha: 1)
             }
         }
@@ -149,50 +149,44 @@ class ViewController: UIViewController
     }
     
     private func symbolForCard(card: SetCard) -> String {
-        var symbol: String
         switch card.symbol {
         case .shape1:
-            symbol = "diamond"
+            return "diamond"
         case .shape2:
-            symbol = "oval"
+            return "oval"
         case .shape3:
-            symbol = "squiggle"
+            return "squiggle"
         }
-        return symbol
     }
     
     private func shadingForCard(card: SetCard) -> String {
-        var shading: String
         switch card.shading {
         case .style1:
-            shading = "solid"
+            return "solid"
         case .style2:
-            shading = "striped"
+            return "striped"
         case .style3:
-            shading = "none"
+            return "none"
         }
-        return shading
     }
 
     private func colorForCard(card: SetCard) -> UIColor {
-        var color: UIColor
         switch card.color {
         case .one:
-            color = #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
+            return #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
         case .two:
-            color = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
+            return #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
         case .three:
-            color = #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
+            return #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
         }
-        return color
     }
     
     private func reset() {
         _ = cardViews.map { $0.removeFromSuperview() }
         cardViews.removeAll()
         addCardViews(count: Constants.initialNumberOfCardsDealt)
-        viewDidLayoutSubviews()
-        isShowMatches = false
+        layoutSubviews()
+        isShowHint = false
+        updateViewFromModel()
     }
 }
-
