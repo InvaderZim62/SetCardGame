@@ -130,9 +130,9 @@ class ViewController: UIViewController
             let cardView = cardViews[index]
             let card = game.cardsDealt[index]
             cardView.rank = card.rank
-            cardView.symbol = symbolForCard(card: card)
-            cardView.color = colorForCard(card: card)
-            cardView.shading = shadingForCard(card: card)
+            cardView.symbol = card.symbolString
+            cardView.shading = card.shadingString
+            cardView.color = card.colorUIColor
             cardView.isSelected = game.isCardSelected[index]
             cardView.backColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
             if let isMatch = game.isMatchMade {      // isMatch is nil until any 3 cards are selected
@@ -148,8 +148,20 @@ class ViewController: UIViewController
         newGameButton.layer.borderWidth = !game.isMatchAvailable && game.deck.cards.count == 0 ? 2 : 0
     }
     
-    private func symbolForCard(card: SetCard) -> String {
-        switch card.symbol {
+   
+    private func reset() {
+        _ = cardViews.map { $0.removeFromSuperview() }
+        cardViews.removeAll()
+        addCardViews(count: Constants.initialNumberOfCardsDealt)
+        layoutSubviews()
+        isShowHint = false
+        updateViewFromModel()
+    }
+}
+
+extension SetCard {
+    var symbolString: String {      // computed property
+        switch self.symbol {
         case .shape1:
             return "diamond"
         case .shape2:
@@ -159,8 +171,8 @@ class ViewController: UIViewController
         }
     }
     
-    private func shadingForCard(card: SetCard) -> String {
-        switch card.shading {
+    var shadingString: String {
+        switch self.shading {
         case .style1:
             return "solid"
         case .style2:
@@ -169,9 +181,9 @@ class ViewController: UIViewController
             return "none"
         }
     }
-
-    private func colorForCard(card: SetCard) -> UIColor {
-        switch card.color {
+    
+    var colorUIColor: UIColor {
+        switch self.color {
         case .one:
             return #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
         case .two:
@@ -179,14 +191,5 @@ class ViewController: UIViewController
         case .three:
             return #colorLiteral(red: 0.01680417731, green: 0.1983509958, blue: 1, alpha: 1)
         }
-    }
-    
-    private func reset() {
-        _ = cardViews.map { $0.removeFromSuperview() }
-        cardViews.removeAll()
-        addCardViews(count: Constants.initialNumberOfCardsDealt)
-        layoutSubviews()
-        isShowHint = false
-        updateViewFromModel()
     }
 }
