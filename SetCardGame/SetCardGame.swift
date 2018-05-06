@@ -72,6 +72,7 @@ struct SetCardGame
         isCardSelected = isCardSelected.map { _ in false }  // clear all selections
         if isPreviousMatchMade {
             replaceMatchedCards()
+            isMatchMade = nil
             isPreviousMatchMade = false
         } else {
             for _ in 0..<3 {
