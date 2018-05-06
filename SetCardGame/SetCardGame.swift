@@ -12,11 +12,10 @@ struct SetCardGame
 {
     // MARK: - Variables
     private var initialNumberOfCardsDealt: Int
-    private var numberOfCardsSelected = 0
     private var isPreviousMatchMade = false          // true if 3 selected and matched, else false
     private(set) var isMatchMade: Bool?              // true if 3 selected and matched, false if 3 selected and no match, else nil
     private(set) var isMatchAvailable = true
-    private(set) var matchIndices = [Int]()          // indices of three selected and matched cards
+    private(set) var selectedIndices = [Int]()          // indices of three selected and matched cards
     private(set) var potentialMatchIndices = [Int]() // indices of three unselected matched cards
     private(set) var deck = SetCardDeck()
     private(set) var cardsDealt = [SetCard]()
@@ -29,12 +28,15 @@ struct SetCardGame
         reset()
     }
     
+    private var numberOfCardsSelected: Int {
+        return isCardSelected.count(of: true)    // .count is my extension, below
+    }
+
     mutating func cardSelected(at index:Int) {
         if index < isCardSelected.count {                           // make sure index is within dealt cards
-            numberOfCardsSelected = isCardSelected.count(of: true)  // uses an extention, below
             if numberOfCardsSelected == 3 {                         // if selected a card while 3 are already selected
                 isCardSelected = isCardSelected.map { _ in false }  // clear all selections
-                if !(isPreviousMatchMade && matchIndices.contains(index)) {
+                if !(isPreviousMatchMade && selectedIndices.contains(index)) {
                     isCardSelected[index] = !isCardSelected[index]  // select current card, unless it was part of the previous match
                 }
                 if isPreviousMatchMade {
@@ -45,11 +47,10 @@ struct SetCardGame
                 isCardSelected[index] = !isCardSelected[index]
             }
             isMatchMade = nil
-            numberOfCardsSelected = isCardSelected.count(of: true)
             isPreviousMatchMade = false
             if numberOfCardsSelected == 3 {
-                matchIndices = isCardSelected.indices(of: true)
-                let selectedCards = matchIndices.map { cardsDealt[$0] }
+                selectedIndices = isCardSelected.indices(of: true)            // .indices is my extention, below
+                let selectedCards = selectedIndices.map { cardsDealt[$0] }
                 isMatchMade = SetCard.checkFor3Matching(cards: selectedCards)
                 isPreviousMatchMade = isMatchMade!
             }
@@ -57,7 +58,7 @@ struct SetCardGame
     }
     
     private mutating func replaceMatchedCards() {
-        for matchIndex in matchIndices.reversed() {
+        for matchIndex in selectedIndices.reversed() {
             if let card = deck.drawRandom() {
                 cardsDealt[matchIndex] = card           // replace matched card with new card from deck
             } else {
@@ -106,7 +107,6 @@ struct SetCardGame
         deck.reset()
         cardsDealt.removeAll()
         isCardSelected.removeAll()
-        numberOfCardsSelected = 0
         for _ in 0..<initialNumberOfCardsDealt {
             if let card = deck.drawRandom() {
                 cardsDealt.append(card)

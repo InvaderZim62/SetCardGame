@@ -148,7 +148,6 @@ class ViewController: UIViewController
         newGameButton.layer.borderWidth = !game.isMatchAvailable && game.deck.cards.count == 0 ? 2 : 0
     }
     
-   
     private func reset() {
         _ = cardViews.map { $0.removeFromSuperview() }
         cardViews.removeAll()
@@ -159,6 +158,7 @@ class ViewController: UIViewController
     }
 }
 
+// This is UI stuff (doesn't go in the model), so put in an extension to the model in ViewController
 extension SetCard {
     var symbolString: String {      // computed property
         switch self.symbol {
