@@ -50,7 +50,15 @@ class ViewController: UIViewController
     
     @objc private func add3Cards () {
         game.deal3MoreCards()
-        addCardViews(count: game.cardsDealt.count - cardViews.count)
+        isShowHint = false
+        if cardViews.count > game.cardsDealt.count {         // check if cards were removed, instead of
+            for index in game.selectedIndices.reversed() {   // replaced (due to no more cards in deck)
+                cardViews[index].removeFromSuperview()
+                cardViews.remove(at: index)
+            }
+        } else {
+            addCardViews(count: game.cardsDealt.count - cardViews.count)
+        }
         layoutSubviews()
         updateViewFromModel()
     }

@@ -98,6 +98,8 @@ struct SetCardGame
                 }
             }
         }
+        isMatchMade = nil
+        isPreviousMatchMade = false
     }
     
     mutating func reset() {
