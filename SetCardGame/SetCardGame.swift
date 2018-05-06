@@ -14,7 +14,7 @@ struct SetCardGame
     private var initialNumberOfCardsDealt: Int
     private var isPreviousMatchMade = false          // true if 3 selected and matched, else false
     private(set) var isMatchMade: Bool?              // true if 3 selected and matched, false if 3 selected and no match, else nil
-    private(set) var selectedIndices = [Int]()          // indices of three selected and matched cards
+    private(set) var selectedIndices = [Int]()       // indices of three selected and matched cards
     private(set) var deck = SetCardDeck()
     private(set) var cardsDealt = [SetCard]()
     private(set) var isCardSelected = [Bool]()       // keep the same size as cardsDealt
@@ -59,7 +59,7 @@ struct SetCardGame
                     isCardSelected[index] = !isCardSelected[index]  // select current card, unless it was part of the previous match
                 }
                 if isPreviousMatchMade {
-                    replaceMatchedCards()
+                    replaceOrRemoveMatchedCards()
                 }
             } else {
                 isCardSelected[index] = !isCardSelected[index]
@@ -75,7 +75,7 @@ struct SetCardGame
         }
     }
     
-    private mutating func replaceMatchedCards() {
+    private mutating func replaceOrRemoveMatchedCards() {
         for matchIndex in selectedIndices.reversed() {
             if let card = deck.drawRandom() {
                 cardsDealt[matchIndex] = card           // replace matched card with new card from deck
@@ -89,7 +89,7 @@ struct SetCardGame
     mutating func deal3MoreCards() {
         isCardSelected = isCardSelected.map { _ in false }  // clear all selections
         if isPreviousMatchMade {
-            replaceMatchedCards()
+            replaceOrRemoveMatchedCards()
         } else {
             for _ in 0..<3 {
                 if let card = deck.drawRandom() {
