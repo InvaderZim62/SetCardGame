@@ -91,15 +91,19 @@ struct SetCardGame
         if isPreviousMatchMade {
             replaceOrRemoveMatchedCards()
         } else {
-            for _ in 0..<3 {
-                if let card = deck.drawRandom() {
-                    cardsDealt.append(card)
-                    isCardSelected.append(false)
-                }
-            }
+            add3MoreCards()
         }
         isMatchMade = nil
         isPreviousMatchMade = false
+    }
+    
+    private mutating func add3MoreCards() {
+        for _ in 0..<3 {
+            if let card = deck.drawRandom() {
+                cardsDealt.append(card)
+                isCardSelected.append(false)
+            }
+        }
     }
     
     mutating func reset() {

@@ -129,8 +129,8 @@ class ViewController: UIViewController
                         view.frame = gridFrame
                         let spaceBetweenCards = Constants.spaceBetweenCards * view.frame.size.width
                         view.frame = view.frame.insetBy(dx: spaceBetweenCards, dy: spaceBetweenCards);
-                        cardLayoutArea.addSubview(view)
-                        count += 1
+                        cardLayoutArea.addSubview(view)      // This will replace the view (not add another copy), so
+                        count += 1                           // don't worry about calling every time orientation changes
                     }
                 }
             }
