@@ -119,10 +119,17 @@ class ViewController: UIViewController
     
     private func layoutSubviews() {
         var grid = Grid(layout: .aspectRatio(Constants.cardAspectRatio), frame: cardLayoutArea.bounds)
-        grid.cellCount = cardViews.count
+        grid.cellCount = cardViews.count + 3
         var count = 0
+        var start = grid.dimensions.columnCount - 1
+        var end = -1
+        var dir = -1
         for row in 0..<grid.dimensions.rowCount {
-            for col in 0..<grid.dimensions.columnCount {
+            start = grid.dimensions.columnCount - 1 - start
+            end = grid.dimensions.columnCount - 1 - end
+            dir = -dir
+            for col in stride(from: start, to: end, by: dir) {
+//            for col in 0..<grid.dimensions.columnCount {
                 if count < cardViews.count {
                     if let gridFrame = grid[row,col] {
                         let view = cardViews[count]

@@ -24,11 +24,11 @@ struct SetCardDeck
         for rank in SetCard.validRanks {
             for symbol in SetCard.Symbol.all {
                 for shading in SetCard.Shading.all {
-                    for color in SetCard.Color.all {
-                        cards.append(SetCard(rank: rank, symbol: symbol, shading: shading, color: color))
-                    }
+//                    for color in SetCard.Color.all {
+//                        cards.append(SetCard(rank: rank, symbol: symbol, shading: shading, color: color))
+//                    }
                     // for debugging with smaller deck, comment out inner for-loop and use next line
-//                    cards.append(SetCard(rank: rank, symbol: symbol, shading: shading, color: SetCard.Color.one))
+                    cards.append(SetCard(rank: rank, symbol: symbol, shading: shading, color: SetCard.Color.one))
                 }
             }
         }

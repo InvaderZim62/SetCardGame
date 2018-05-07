@@ -99,15 +99,16 @@ struct SetCardGame
             for j in i+1..<cardsDealt.count-1 {
                 for k in j+1..<cardsDealt.count {
                     let testCards = [cardsDealt[i], cardsDealt[j], cardsDealt[k]]
-                    isMatchAvailable = SetCard.checkFor3Matching(cards: testCards)
-                    if isMatchAvailable {
+                    let isMatchAvailableTemp = SetCard.checkFor3Matching(cards: testCards)
+                    if isMatchAvailableTemp {
                         print("available match: \(i+1),\(j+1),\(k+1)")
                         potentialMatchIndices = [i, j, k]
-                        return
+                        isMatchAvailable = true
                     }
                 }
             }
         }
+        return
     }
     
     mutating func reset() {
