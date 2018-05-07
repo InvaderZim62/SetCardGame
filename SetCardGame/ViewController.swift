@@ -8,6 +8,11 @@
 
 import UIKit
 
+struct GameMods {
+    static let alwaysShowHints = false
+    static let useFullDeck = true
+}
+
 class ViewController: UIViewController
 {
     // MARK: - Variables
@@ -159,7 +164,7 @@ class ViewController: UIViewController
                     cardView.backColor = isMatch ? #colorLiteral(red: 0.814127624, green: 0.9532099366, blue: 0.850346446, alpha: 1) : #colorLiteral(red: 0.9486960769, green: 0.7929092646, blue: 0.8161730766, alpha: 1)
                     isShowHint = false
                 }
-            } else if isShowHint && game.potentialMatchIndices.contains(index) {
+            } else if ( isShowHint || GameMods.alwaysShowHints ) && game.potentialMatchIndices.contains(index) {
                 cardView.backColor = #colorLiteral(red: 0.9995340705, green: 0.9458183468, blue: 0.7034410847, alpha: 1)
             }
         }
