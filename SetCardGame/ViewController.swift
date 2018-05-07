@@ -124,9 +124,16 @@ class ViewController: UIViewController
         for row in 0..<grid.dimensions.rowCount {
             for col in 0..<grid.dimensions.columnCount {
                 if count < cardViews.count {
-                    let view = cardViews[count]
                     if let gridFrame = grid[row,col] {
-                        view.frame = gridFrame
+                        let view = cardViews[count]
+                        UIView.transition(
+                            with: view,
+                            duration: 0.8,
+                            options:[],
+                            animations: {
+                                view.frame = gridFrame
+                            }
+                        )
                         let spaceBetweenCards = Constants.spaceBetweenCards * view.frame.size.width
                         view.frame = view.frame.insetBy(dx: spaceBetweenCards, dy: spaceBetweenCards);
                         cardLayoutArea.addSubview(view)      // This will replace the view (not add another copy), so
