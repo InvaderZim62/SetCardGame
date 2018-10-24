@@ -8,12 +8,13 @@
 
 import UIKit
 
+// MARK: - Globals
 struct GameMods {
     static let alwaysShowHints = false
     static let useFullDeck = true
 }
 
-class ViewController: UIViewController
+class SetCardViewController: UIViewController
 {
     // MARK: - Variables
     private struct Constants {

@@ -18,7 +18,7 @@ class SetCardView: UIView {
         static let stripeSpacing: CGFloat = 0.13
     }
     var rank: Int = 0
-    var symbol: String = "oval"
+    var symbol: String = "oval"        // init with defaults
     var shading: String = "solid"
     var color: UIColor = .red
     var backColor: UIColor = .white { didSet { setNeedsDisplay(); setNeedsLayout() } }
@@ -152,12 +152,12 @@ class SetCardView: UIView {
         self.contentMode = .redraw
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {      // init when coming from storyboard
         super.init(coder: aDecoder)
         setup()
     }
     
-    override init(frame: CGRect) {
+    override init(frame: CGRect) {                 // init from user (frame is zero, if none given)
         super.init(frame: frame)
         setup()
     }

@@ -130,7 +130,7 @@ struct SetCardGame
 
 extension Array where Element: Equatable {
     func count(of element: Element) -> Int {
-        return self.filter { $0 == element }.count
+        return self.filter { $0 == element }.count          // trailing closure
     }
     func indices(of element: Element) -> [Int] {
         return self.indices.filter { self[$0] == element }
