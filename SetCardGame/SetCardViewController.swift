@@ -101,7 +101,7 @@ class SetCardViewController: UIViewController
     @objc private func tappedCard(recognizer: UITapGestureRecognizer) {
         switch recognizer.state {
         case .ended:
-            if let cardView = recognizer.view as? SetCardView, let index = cardViews.index(of: cardView) {
+            if let cardView = recognizer.view as? SetCardView, let index = cardViews.firstIndex(of: cardView) {
                 game.cardSelected(at: index)
                 if cardViews.count > game.cardsDealt.count {         // check if cards were removed, instead of
                     for index in game.selectedIndices.reversed() {   // replaced (due to no more cards in deck)

@@ -11,7 +11,7 @@ import Foundation
 struct SetCardDeck
 {
     // MARK: - Variables
-    private(set) var cards = [SetCard]()
+    private(set) var cards = [SetCard]()  // cards are in order, but drawn randomly (removed from array)
     
     // MARK: - Functions
     
@@ -48,9 +48,8 @@ struct SetCardDeck
 
 // MARK: - Extensions
 
-// extend int to return randome number from 0 to the int itself
-// Note: extensions can add computed properties, but not stored properties or propertiy observers
 extension Int {
+    // return random number from 0 to the Int itself (exclusive)
     var arc4random: Int {
         if self > 0 {
             return Int(arc4random_uniform(UInt32(self)))
