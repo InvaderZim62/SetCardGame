@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct SetCard: CustomStringConvertible  // CustomStringConvertable protocol allows custom output for print (requies "var description")
+struct SetCard: CustomStringConvertible  // CustomStringConvertable protocol allows custom output for print (requires "var description")
 {
     // MARK: - Variables
     var description: String { return "rank:\(rank) \(symbol) shading:\(shading) color:\(color)" }
@@ -48,8 +48,8 @@ struct SetCard: CustomStringConvertible  // CustomStringConvertable protocol all
     // MARK: - Functions
 
     static func checkFor3Matching(cards: [SetCard]) -> Bool {
-        assert(cards.count == 3, "SetCardGame.checkForMatch(\(cards.count)): there should be 3 selected cards, here")
-        
+        assert(cards.count == 3, "(SetCard.checkFor3Matching) \(cards.count) selected cards (should be 3)")
+
         //return true  // for debugging, to make everything match, uncomment this line
         
         var matchCount = 0

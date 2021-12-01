@@ -45,6 +45,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A1233A426D5AC8D006B5546 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4AD5A80E20806F300030CE33 /* SetCardGame.swift */,
+				4AD5A81020807E910030CE33 /* SetCardDeck.swift */,
+				4AD5A80C20806A530030CE33 /* SetCard.swift */,
+				4A6F025B209003A000F6B2ED /* Grid.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		4AD5A7ED20803FE80030CE33 = {
 			isa = PBXGroup;
 			children = (
@@ -66,11 +77,8 @@
 			children = (
 				4AD5A7FD20803FE90030CE33 /* Main.storyboard */,
 				4AD5A7FB20803FE90030CE33 /* SetCardViewController.swift */,
-				4AD5A80E20806F300030CE33 /* SetCardGame.swift */,
-				4AD5A81020807E910030CE33 /* SetCardDeck.swift */,
-				4AD5A80C20806A530030CE33 /* SetCard.swift */,
 				4A6F0259208D8A3800F6B2ED /* SetCardView.swift */,
-				4A6F025B209003A000F6B2ED /* Grid.swift */,
+				4A1233A426D5AC8D006B5546 /* Model */,
 				4AD5A80B208040400030CE33 /* Supporting Files */,
 				4AD5A80520803FE90030CE33 /* Info.plist */,
 			);

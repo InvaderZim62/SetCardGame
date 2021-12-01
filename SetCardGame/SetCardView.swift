@@ -103,7 +103,7 @@ class SetCardView: UIView {
         path.addCurve(to: CGPoint(x: 0.7*width, y: voffset-squiggleThickness),
                       controlPoint1: CGPoint(x: 0.5*width, y: voffset-2*squiggleThickness),
                       controlPoint2: CGPoint(x: 0.5*width, y: voffset))
-        //right endcap
+        //right end-cap
         path.addCurve(to: CGPoint(x: 0.7*width, y: voffset+squiggleThickness),
                       controlPoint1: CGPoint(x: 0.9*width, y: voffset-2*squiggleThickness),
                       controlPoint2: CGPoint(x: 0.9*width, y: voffset))
@@ -111,7 +111,7 @@ class SetCardView: UIView {
         path.addCurve(to: CGPoint(x: 0.3*width, y: voffset+squiggleThickness),
                       controlPoint1: CGPoint(x: 0.5*width, y: voffset+2*squiggleThickness),
                       controlPoint2: CGPoint(x: 0.5*width, y: voffset))
-        //left endcap
+        //left end-cap
         path.addCurve(to: CGPoint(x: 0.3*width, y: voffset-squiggleThickness),
                       controlPoint1: CGPoint(x: 0.1*width, y: voffset+2*squiggleThickness),
                       controlPoint2: CGPoint(x: 0.1*width, y: voffset))

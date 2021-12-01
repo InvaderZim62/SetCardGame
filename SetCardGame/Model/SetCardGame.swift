@@ -34,7 +34,7 @@ struct SetCardGame
 
     mutating func cardSelected(at index:Int) {
         if index < isCardSelected.count {                           // make sure index is within dealt cards
-            if numberOfCardsSelected == 3 {                         // if selected a card while 3 are already selected
+            if numberOfCardsSelected == 3 {                         // if a card selected while 3 are already selected
                 isCardSelected = isCardSelected.map { _ in false }  // clear all selections
                 if !(isPreviousMatchMade && selectedIndices.contains(index)) {
                     isCardSelected[index] = !isCardSelected[index]  // select current card, unless it was part of the previous match
@@ -42,14 +42,13 @@ struct SetCardGame
                 if isPreviousMatchMade {
                     replaceOrRemoveMatchedCards()
                 }
-                checkIfMatchAvailable()
             } else {
                 isCardSelected[index] = !isCardSelected[index]
             }
             isMatchMade = nil
             isPreviousMatchMade = false
             if numberOfCardsSelected == 3 {
-                selectedIndices = isCardSelected.indices(of: true)            // .indices is my extention, below
+                selectedIndices = isCardSelected.indices(of: true)            // .indices is my extension, below
                 let selectedCards = selectedIndices.map { cardsDealt[$0] }
                 isMatchMade = SetCard.checkFor3Matching(cards: selectedCards)
                 isPreviousMatchMade = isMatchMade!

@@ -131,18 +131,18 @@ class SetCardViewController: UIViewController
             for col in 0..<grid.dimensions.columnCount {
                 if count < cardViews.count {
                     if let gridFrame = grid[row,col] {
-                        let view = cardViews[count]
+                        let cardView = cardViews[count]  // frame not initially set, so starts as zero (point at upper left corner of screen)
                         UIView.transition(
-                            with: view,
+                            with: cardView,
                             duration: 0.8,
                             options:[],
                             animations: {
-                                view.frame = gridFrame
+                                cardView.frame = gridFrame
                             }
                         )
-                        let spaceBetweenCards = Constants.spaceBetweenCards * view.frame.size.width
-                        view.frame = view.frame.insetBy(dx: spaceBetweenCards, dy: spaceBetweenCards);
-                        cardLayoutArea.addSubview(view)      // This will replace the view (not add another copy), so
+                        let spaceBetweenCards = Constants.spaceBetweenCards * cardView.frame.size.width
+                        cardView.frame = cardView.frame.insetBy(dx: spaceBetweenCards, dy: spaceBetweenCards);
+                        cardLayoutArea.addSubview(cardView)      // This will replace the view (not add another copy), so
                         count += 1                           // don't worry about calling every time orientation changes
                     }
                 }
