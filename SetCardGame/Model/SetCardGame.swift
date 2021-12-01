@@ -65,14 +65,13 @@ struct SetCardGame
                 isCardSelected.remove(at: matchIndex)
             }
         }
+        checkIfMatchAvailable()
     }
     
     mutating func deal3MoreCards() {
         isCardSelected = isCardSelected.map { _ in false }  // clear all selections
         if isPreviousMatchMade {
             replaceOrRemoveMatchedCards()
-            isMatchMade = nil
-            isPreviousMatchMade = false
         } else {
             add3MoreCards()
         }
